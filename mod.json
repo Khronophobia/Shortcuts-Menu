@@ -24,6 +24,12 @@
 		}
 	],
 	"settings": {
+		"hide-spoilers": {
+			"name": "Hide Spoilers",
+			"description": "Hide shortcuts for sections of the game you haven't unlocked. Disabling this does <cr>NOT</c> make them accessible.",
+			"type": "bool",
+			"default": true
+		},
 		"enable-menulayer": {
 			"name": "Enable in MenuLayer",
 			"type": "bool",
@@ -39,9 +45,18 @@
 			"type": "bool",
 			"default": true
 		},
-		"hide-spoilers": {
-			"name": "Hide Spoilers",
-			"description": "Hide shortcuts for sections of the game you haven't unlocked. Disabling this does <cr>NOT</c> make them accessible.",
+		"enable-levelbrowserlayer": {
+			"name": "Enable in LevelBrowserLayer",
+			"type": "bool",
+			"default": true
+		},
+		"enable-levelsearchlayer": {
+			"name": "Enable in LevelSearchLayer",
+			"type": "bool",
+			"default": true
+		},
+		"enable-levelinfolayer": {
+			"name": "Enable in LevelInfoLayer",
 			"type": "bool",
 			"default": true
 		}

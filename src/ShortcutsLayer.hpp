@@ -25,7 +25,7 @@ public:
     void onModsList(CCObject*);
     static CCMenuItemSpriteExtra* addShortcutButton(
         CCObject* target,
-        float scale = 1.f,
+        float scale = 1.1f,
         CircleBaseColor color = CircleBaseColor::Green,
         CircleBaseSize size = CircleBaseSize::Medium
     );

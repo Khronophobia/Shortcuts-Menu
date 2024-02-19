@@ -2,6 +2,9 @@
 #include <Geode/modify/MenuLayer.hpp>
 #include <Geode/modify/EditLevelLayer.hpp>
 #include <Geode/modify/CreatorLayer.hpp>
+#include <Geode/modify/LevelBrowserLayer.hpp>
+#include <Geode/modify/LevelSearchLayer.hpp>
+#include <Geode/modify/LevelInfoLayer.hpp>
 #include "ShortcutsLayer.hpp"
 
 using namespace geode::prelude;
@@ -11,7 +14,9 @@ class $modify(MenuLayer) {
 		if (!MenuLayer::init()) return false;
 
 		if (Mod::get()->getSettingValue<bool>("enable-menulayer")) {
-			auto shortcutButton = ShortcutsLayer::addShortcutButton(this, 1.2f, CircleBaseColor::Green, CircleBaseSize::MediumAlt);
+			auto shortcutButton = ShortcutsLayer::addShortcutButton(
+				this, 1.2f, CircleBaseColor::Green, CircleBaseSize::MediumAlt
+			);
 			auto menu = this->getChildByID("bottom-menu");
 			menu->addChild(shortcutButton);
 			menu->updateLayout();
@@ -26,8 +31,7 @@ class $modify(EditLevelLayer) {
 		if (!EditLevelLayer::init(level)) return false;
 
 		if (Mod::get()->getSettingValue<bool>("enable-editlevellayer")) {
-			auto shortcutButton = ShortcutsLayer::addShortcutButton(this, 1.1f);
-			shortcutButton->setID("shortcut-button"_spr);
+			auto shortcutButton = ShortcutsLayer::addShortcutButton(this);
 			auto menu = this->getChildByID("level-actions-menu");
 			menu->addChild(shortcutButton);
 			menu->updateLayout();
@@ -42,9 +46,63 @@ class $modify(CreatorLayer) {
 		if (!CreatorLayer::init()) return false;
 
 		if (Mod::get()->getSettingValue<bool>("enable-creatorlayer")) {
-			auto shortcutButton = ShortcutsLayer::addShortcutButton(this, 0.9f, CircleBaseColor::Green, CircleBaseSize::Small);
-			shortcutButton->setID("shortcut-button"_spr);
+			auto shortcutButton = ShortcutsLayer::addShortcutButton(
+				this, 0.9f, CircleBaseColor::Green, CircleBaseSize::Small
+			);
 			auto menu = this->getChildByID("bottom-right-menu");
+			menu->addChild(shortcutButton);
+			menu->updateLayout();
+		}
+
+		return true;
+	}
+};
+
+class $modify(LevelBrowserLayer) {
+	bool init(GJSearchObject* p0) {
+		if (!LevelBrowserLayer::init(p0)) return false;
+
+		if (Mod::get()->getSettingValue<bool>("enable-levelbrowserlayer")) {
+			auto shortcutButton = ShortcutsLayer::addShortcutButton(
+				this, 0.9f, CircleBaseColor::Green, CircleBaseSize::Small
+			);
+			shortcutButton->setZOrder(1);
+			auto menu = this->getChildByID("back-menu");
+			menu->addChild(shortcutButton);
+			menu->updateLayout();
+		}
+
+		return true;
+	}
+};
+
+class $modify(LevelSearchLayer) {
+	bool init(int p0) {
+		if (!LevelSearchLayer::init(p0)) return false;
+
+		if (Mod::get()->getSettingValue<bool>("enable-levelsearchlayer")) {
+			auto shortcutButton = ShortcutsLayer::addShortcutButton(
+				this, 0.9f, CircleBaseColor::Green, CircleBaseSize::Small
+			);
+			shortcutButton->setPositionY(-shortcutButton->getContentSize().height);
+			auto menu = this->getChildByID("exit-menu");
+			menu->addChild(shortcutButton);
+		}
+
+		return true;
+	}
+};
+
+class $modify(LevelInfoLayer) {
+	bool init(GJGameLevel* level, bool p1) {
+		if (!LevelInfoLayer::init(level, p1)) return false;
+
+		if (Mod::get()->getSettingValue<bool>("enable-levelinfolayer")) {
+			auto shortcutButton = ShortcutsLayer::addShortcutButton(
+				this, 0.9f, CircleBaseColor::Green, CircleBaseSize::Small
+			);
+			shortcutButton->setZOrder(1);
+			auto menu = this->getChildByID("back-menu");
 			menu->addChild(shortcutButton);
 			menu->updateLayout();
 		}

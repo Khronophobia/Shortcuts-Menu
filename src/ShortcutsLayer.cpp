@@ -98,7 +98,7 @@ bool ShortcutsLayer::setup() {
     auto garageBtn = CCMenuItemSpriteExtra::create(
         CircleButtonSprite::createWithSpriteFrameName("garageSprite.png"_spr, 0.95f),
         this,
-        menu_selector(MenuLayer::onGarage)
+        menu_selector(LevelInfoLayer::onGarage)
     );
     auto creatorSpr = CCSprite::createWithSpriteFrameName("GJ_editBtn_001.png");
     creatorSpr->setScale(0.6f);
