@@ -8,7 +8,7 @@ bool ShortcutsLayer::setup() {
     // This spritesheet isn't loaded by default. Not sure if there's a better way to handle this.
     CCSpriteFrameCache::get()->addSpriteFramesWithFile("SecretSheet.plist");
     m_currentPage = 1;
-    m_maxPage = 4;
+    m_maxPage = 3;
     this->setTitle("Shortcuts Menu", "bigFont.fnt");
     auto screenSize = CCDirector::sharedDirector()->getWinSize();
 
@@ -62,13 +62,10 @@ bool ShortcutsLayer::setup() {
     page2Layer->setID("page-2"_spr);
     page3Layer = CCLayer::create();
     page3Layer->setID("page-3"_spr);
-    page4Layer = CCLayer::create();
-    page4Layer->setID("page-4"_spr);
 
     m_mainLayer->addChild(page1Layer);
     m_mainLayer->addChild(page2Layer);
     m_mainLayer->addChild(page3Layer);
-    m_mainLayer->addChild(page4Layer);
 
     // Page 1 (Menus)
     auto placeMenu = CCMenu::create();
@@ -79,39 +76,62 @@ bool ShortcutsLayer::setup() {
         AxisLayout::create()
             ->setGrowCrossAxis(true)
             ->setCrossAxisOverflow(false)
-            ->setGap(15.f)
+            ->setGap(10.f)
     );
     page1Layer->addChild(placeMenu);
 
-    auto mainMenuSpr = CCLabelBMFont::create(
-        "Main\nMenu",
-        "goldFont.fnt",
-        1.f,
-        CCTextAlignment::kCCTextAlignmentCenter
-    );
     auto mainMenuBtn = CCMenuItemSpriteExtra::create(
-        CircleButtonSprite::create(mainMenuSpr),
+        CrossButtonSprite::createWithSpriteFrameName("menuArrow.png"_spr, 0.6f),
         this,
         menu_selector(ShortcutsLayer::onScene)
     );
     mainMenuBtn->setUserObject(MenuLayer::scene(false));
     auto garageBtn = CCMenuItemSpriteExtra::create(
-        CircleButtonSprite::createWithSpriteFrameName("garageSprite.png"_spr, 0.95f),
+        CCSprite::createWithSpriteFrameName("GJ_garageBtn_001.png"),
         this,
         menu_selector(LevelInfoLayer::onGarage)
     );
-    auto creatorSpr = CCSprite::createWithSpriteFrameName("GJ_editBtn_001.png");
-    creatorSpr->setScale(0.6f);
     auto creatorBtn = CCMenuItemSpriteExtra::create(
-        creatorSpr,
+        CCSprite::createWithSpriteFrameName("GJ_creatorBtn_001.png"),
         this,
         menu_selector(ShortcutsLayer::onScene)
     );
     creatorBtn->setUserObject(CreatorLayer::scene());
+    creatorBtn->setLayoutOptions(
+        AxisLayoutOptions::create()->setBreakLine(true)
+    );
 
-    placeMenu->addChild(mainMenuBtn);
+    auto exitBtn = CCMenuItemSpriteExtra::create(
+        CCSprite::createWithSpriteFrameName("GJ_closeBtn_001.png"),
+        this,
+        menu_selector(ShortcutsLayer::onQuit)
+    );
+    auto restartBtn = CCMenuItemSpriteExtra::create(
+        CCSprite::createWithSpriteFrameName("GJ_updateBtn_001.png"),
+        this,
+        menu_selector(ShortcutsLayer::onRestart)
+    );
+    auto geodeBtn = CCMenuItemSpriteExtra::create(
+        CircleButtonSprite::createWithSpriteFrameName(
+            "geode.loader/geode-logo-outline-gold.png"
+        ),
+        this,
+        menu_selector(ShortcutsLayer::onModsList)
+    );
+    auto settingsBtn = CCMenuItemSpriteExtra::create(
+        CCSprite::createWithSpriteFrameName("GJ_optionsBtn_001.png"),
+        this,
+        menu_selector(MenuLayer::onOptions)
+    );
+
     placeMenu->addChild(garageBtn);
+    placeMenu->addChild(mainMenuBtn);
     placeMenu->addChild(creatorBtn);
+    // Line break
+    placeMenu->addChild(exitBtn);
+    placeMenu->addChild(restartBtn);
+    placeMenu->addChild(geodeBtn);
+    placeMenu->addChild(settingsBtn);
     placeMenu->updateLayout();
 
     // Page 2 (Vault Shortcuts)
@@ -256,47 +276,19 @@ bool ShortcutsLayer::setup() {
 
     shopMenu->updateLayout();
 
-    // Page 4 - Utilities
-    auto utilsMenu = CCMenu::create();
-    utilsMenu->ignoreAnchorPointForPosition(false);
-    utilsMenu->setContentSize(m_size - CCSize{60.f, 70.f});
-    utilsMenu->setPositionY(screenSize.height / 2 - 5.f);
-    utilsMenu->setLayout(
+    /*
+    auto placeMenu = CCMenu::create();
+    placeMenu->ignoreAnchorPointForPosition(false);
+    placeMenu->setContentSize(m_size - CCSize{60.f, 70.f});
+    placeMenu->setPositionY(screenSize.height / 2 - 5.f);
+    placeMenu->setLayout(
         AxisLayout::create()
             ->setGrowCrossAxis(true)
             ->setCrossAxisOverflow(false)
             ->setGap(15.f)
     );
-    page4Layer->addChild(utilsMenu);
-
-    auto exitBtn = CCMenuItemSpriteExtra::create(
-        CCSprite::createWithSpriteFrameName("GJ_closeBtn_001.png"),
-        this,
-        menu_selector(ShortcutsLayer::onQuit)
-    );
-    auto restartBtn = CCMenuItemSpriteExtra::create(
-        CCSprite::createWithSpriteFrameName("GJ_updateBtn_001.png"),
-        this,
-        menu_selector(ShortcutsLayer::onRestart)
-    );
-    auto geodeBtn = CCMenuItemSpriteExtra::create(
-        CircleButtonSprite::createWithSpriteFrameName(
-            "geode.loader/geode-logo-outline-gold.png"
-        ),
-        this,
-        menu_selector(ShortcutsLayer::onModsList)
-    );
-    auto settingsBtn = CCMenuItemSpriteExtra::create(
-        CCSprite::createWithSpriteFrameName("GJ_optionsBtn_001.png"),
-        this,
-        menu_selector(MenuLayer::onOptions)
-    );
-
-    utilsMenu->addChild(exitBtn);
-    utilsMenu->addChild(restartBtn);
-    utilsMenu->addChild(geodeBtn);
-    utilsMenu->addChild(settingsBtn);
-    utilsMenu->updateLayout();
+    page4Layer->addChild(placeMenu);
+    */
 
     ShortcutsLayer::refreshPage();
     return true;
@@ -336,28 +328,18 @@ void ShortcutsLayer::refreshPage() {
             page1Layer->setVisible(true);
             page2Layer->setVisible(false);
             page3Layer->setVisible(false);
-            page4Layer->setVisible(false);
             break;
         case 2:
             pageTitle = "Vaults";
             page1Layer->setVisible(false);
             page2Layer->setVisible(true);
             page3Layer->setVisible(false);
-            page4Layer->setVisible(false);
             break;
         case 3:
             pageTitle = "Shops";
             page1Layer->setVisible(false);
             page2Layer->setVisible(false);
             page3Layer->setVisible(true);
-            page4Layer->setVisible(false);
-            break;
-        case 4:
-            pageTitle = "Utilities";
-            page1Layer->setVisible(false);
-            page2Layer->setVisible(false);
-            page3Layer->setVisible(false);
-            page4Layer->setVisible(true);
             break;
     }
     pageDesc->setString(std::format("Page {} / {}", m_currentPage, m_maxPage).c_str());

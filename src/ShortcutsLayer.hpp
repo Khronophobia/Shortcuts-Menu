@@ -12,7 +12,6 @@ protected:
     CCLayer* page1Layer;
     CCLayer* page2Layer;
     CCLayer* page3Layer;
-    CCLayer* page4Layer;
     CCLabelBMFont* pageDesc;
 public:
     static ShortcutsLayer* create();
