@@ -2,7 +2,6 @@
 #include <Geode/modify/MenuLayer.hpp>
 #include <Geode/modify/EditLevelLayer.hpp>
 #include <Geode/modify/CreatorLayer.hpp>
-#include <Geode/modify/CCTransitionFade.hpp>
 #include "ShortcutsLayer.hpp"
 
 using namespace geode::prelude;
