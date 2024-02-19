@@ -155,7 +155,14 @@ bool ShortcutsLayer::setup() {
         4 = Diamond
     */
     auto shopMenu = CCMenu::create();
-    shopMenu->setPositionY(screenSize.height / 2 + 40.f);
+    shopMenu->ignoreAnchorPointForPosition(false);
+    shopMenu->setContentSize(m_size - CCSize{60.f, 70.f});
+    shopMenu->setLayout(
+        AxisLayout::create()
+            ->setGap(15.f)
+            ->setGrowCrossAxis(true)
+            ->setCrossAxisOverflow(false)
+    );
     page3Layer->addChild(shopMenu);
 
     auto shopSpr = CCSprite::createWithSpriteFrameName("shopButton.png"_spr);
@@ -165,17 +172,11 @@ bool ShortcutsLayer::setup() {
         this,
         menu_selector(GJGarageLayer::onShop)
     );
+    shopBtn->setLayoutOptions(
+        AxisLayoutOptions::create()
+            ->setBreakLine(true)
+    );
     shopMenu->addChild(shopBtn);
-
-    auto secretShopMenu = CCMenu::create();
-    secretShopMenu->ignoreAnchorPointForPosition(false);
-    secretShopMenu->setContentSize({
-        m_size.width - 60.f,
-        60.f
-    });
-    secretShopMenu->setPosition(screenSize / 2 - CCPoint{0, 40.f});
-    secretShopMenu->setLayout(AxisLayout::create()->setGap(30.f));
-    page3Layer->addChild(secretShopMenu);
 
     // Scratch
     if (
@@ -183,7 +184,7 @@ bool ShortcutsLayer::setup() {
         Mod::get()->getSettingValue<bool>("hide-spoilers")
     ) {
         auto secretShopSpr = CCSprite::createWithSpriteFrameName("secretShopButtonLocked.png"_spr);
-        secretShopMenu->addChild(secretShopSpr);
+        shopMenu->addChild(secretShopSpr);
     } else {
         auto secretShop1Spr = CCSprite::createWithSpriteFrameName("secretShopButton1.png"_spr);
         auto secretShop1Btn = CCMenuItemSpriteExtra::create(
@@ -192,7 +193,7 @@ bool ShortcutsLayer::setup() {
             menu_selector(SecretRewardsLayer::onShop)
         );
         secretShop1Btn->setTag(1);
-        secretShopMenu->addChild(secretShop1Btn);
+        shopMenu->addChild(secretShop1Btn);
     }
     // Community
     if (
@@ -200,7 +201,7 @@ bool ShortcutsLayer::setup() {
         Mod::get()->getSettingValue<bool>("hide-spoilers")
     ) {
         auto secretShop2Spr = CCSprite::createWithSpriteFrameName("secretShopButtonLocked.png"_spr);
-        secretShopMenu->addChild(secretShop2Spr);
+        shopMenu->addChild(secretShop2Spr);
     } else {
         auto secretShop2Spr = CCSprite::createWithSpriteFrameName("secretShopButton2.png"_spr);
         auto secretShop2Btn = CCMenuItemSpriteExtra::create(
@@ -209,7 +210,7 @@ bool ShortcutsLayer::setup() {
             menu_selector(SecretRewardsLayer::onShop)
         );
         secretShop2Btn->setTag(2);
-        secretShopMenu->addChild(secretShop2Btn);
+        shopMenu->addChild(secretShop2Btn);
     }
     // Mechanic
     if (
@@ -217,7 +218,7 @@ bool ShortcutsLayer::setup() {
         Mod::get()->getSettingValue<bool>("hide-spoilers")
     ) {
         auto secretShop3Spr = CCSprite::createWithSpriteFrameName("secretShopButtonLocked.png"_spr);
-        secretShopMenu->addChild(secretShop3Spr);
+        shopMenu->addChild(secretShop3Spr);
     } else {
         auto secretShop3Spr = CCSprite::createWithSpriteFrameName("secretShopButton3.png"_spr);
         auto secretShop3Btn = CCMenuItemSpriteExtra::create(
@@ -226,7 +227,7 @@ bool ShortcutsLayer::setup() {
             menu_selector(SecretRewardsLayer::onShop)
         );
         secretShop3Btn->setTag(3);
-        secretShopMenu->addChild(secretShop3Btn);
+        shopMenu->addChild(secretShop3Btn);
     }
     // Diamond
     if (
@@ -234,7 +235,7 @@ bool ShortcutsLayer::setup() {
         Mod::get()->getSettingValue<bool>("hide-spoilers")
     ) {
         auto secretShop4Spr = CCSprite::createWithSpriteFrameName("secretShopButtonLocked.png"_spr);
-        secretShopMenu->addChild(secretShop4Spr);
+        shopMenu->addChild(secretShop4Spr);
     } else {
         auto secretShop4Spr = CCSprite::createWithSpriteFrameName("secretShopButton4.png"_spr);
         auto secretShop4Btn = CCMenuItemSpriteExtra::create(
@@ -243,10 +244,10 @@ bool ShortcutsLayer::setup() {
             menu_selector(SecretRewardsLayer::onShop)
         );
         secretShop4Btn->setTag(4);
-        secretShopMenu->addChild(secretShop4Btn);
+        shopMenu->addChild(secretShop4Btn);
     }
 
-    secretShopMenu->updateLayout();
+    shopMenu->updateLayout();
 
     // Page 4 - Utilities
     auto utilsMenu = CCMenu::create();
