@@ -35,9 +35,16 @@ bool ShortcutsLayer::setup() {
             - 4,
         0
     });
-
     m_buttonMenu->addChild(prevPageBtn);
     m_buttonMenu->addChild(nextPageBtn);
+
+    auto modSettingsBtn = CCMenuItemSpriteExtra::create(
+        CCSprite::createWithSpriteFrameName("GJ_optionsBtn02_001.png"),
+        this,
+        menu_selector(ShortcutsLayer::onModSettings)
+    );
+    modSettingsBtn->setPosition(m_size / 2 - CCPoint{3, 3});
+    m_buttonMenu->addChild(modSettingsBtn);
 
     pageDesc = CCLabelBMFont::create("Page Desc", "bigFont.fnt");
     pageDesc->setScale(0.5f);
@@ -284,21 +291,11 @@ bool ShortcutsLayer::setup() {
         this,
         menu_selector(MenuLayer::onOptions)
     );
-    auto modSettingsBtn = CCMenuItemSpriteExtra::create(
-        CCSprite::createWithSpriteFrameName("GJ_optionsBtn_001.png"),
-        this,
-        menu_selector(ShortcutsLayer::onModSettings)
-    );
-    auto shortcutIcon = CCSprite::createWithSpriteFrameName("shortcutIcon.png"_spr);
-    shortcutIcon->setAnchorPoint({1.f, 0.f});
-    shortcutIcon->setPositionX(modSettingsBtn->getContentSize().width);
-    modSettingsBtn->addChild(shortcutIcon);
 
     utilsMenu->addChild(exitBtn);
     utilsMenu->addChild(restartBtn);
     utilsMenu->addChild(geodeBtn);
     utilsMenu->addChild(settingsBtn);
-    utilsMenu->addChild(modSettingsBtn);
     utilsMenu->updateLayout();
 
     ShortcutsLayer::refreshPage();
