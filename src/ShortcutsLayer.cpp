@@ -412,9 +412,9 @@ void ShortcutsLayer::onModSettings(CCObject* sender) {
 
 CCMenuItemSpriteExtra* ShortcutsLayer::addShortcutButton(
 	CCObject* target,
-	float scale = 1.f,
-	CircleBaseColor color = CircleBaseColor::Green,
-	CircleBaseSize size = CircleBaseSize::Medium) {
+	float scale,
+	CircleBaseColor color,
+	CircleBaseSize size) {
 	auto shortcutButton = CCMenuItemSpriteExtra::create(
 			CircleButtonSprite::createWithSpriteFrameName("shortcutIcon.png"_spr, scale, color, size),
 			target,
