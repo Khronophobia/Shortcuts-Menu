@@ -409,3 +409,17 @@ void ShortcutsLayer::onModsList(CCObject* sender) {
 void ShortcutsLayer::onModSettings(CCObject* sender) {
     geode::openSettingsPopup(Mod::get());
 }
+
+CCMenuItemSpriteExtra* ShortcutsLayer::addShortcutButton(
+	CCObject* target,
+	float scale = 1.f,
+	CircleBaseColor color = CircleBaseColor::Green,
+	CircleBaseSize size = CircleBaseSize::Medium) {
+	auto shortcutButton = CCMenuItemSpriteExtra::create(
+			CircleButtonSprite::createWithSpriteFrameName("shortcutIcon.png"_spr, scale, color, size),
+			target,
+			menu_selector(ShortcutsLayer::onShortcut)
+		);
+	shortcutButton->setID("shortcut-button"_spr);
+	return shortcutButton;
+}
