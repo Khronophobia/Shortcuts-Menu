@@ -15,7 +15,7 @@ class $modify(MenuLayer) {
 
 		if (Mod::get()->getSettingValue<bool>("enable-menulayer")) {
 			auto shortcutButton = ShortcutsLayer::addShortcutButton(
-				this, 1.2f, CircleBaseColor::Green, CircleBaseSize::MediumAlt
+				this, 1.f, CircleBaseColor::Green, CircleBaseSize::MediumAlt
 			);
 			auto menu = this->getChildByID("bottom-menu");
 			menu->addChild(shortcutButton);
@@ -47,7 +47,7 @@ class $modify(CreatorLayer) {
 
 		if (Mod::get()->getSettingValue<bool>("enable-creatorlayer")) {
 			auto shortcutButton = ShortcutsLayer::addShortcutButton(
-				this, 0.9f, CircleBaseColor::Green, CircleBaseSize::Small
+				this, 1.f, CircleBaseColor::Green, CircleBaseSize::Small
 			);
 			auto menu = this->getChildByID("bottom-right-menu");
 			menu->addChild(shortcutButton);
@@ -64,7 +64,7 @@ class $modify(LevelBrowserLayer) {
 
 		if (Mod::get()->getSettingValue<bool>("enable-levelbrowserlayer")) {
 			auto shortcutButton = ShortcutsLayer::addShortcutButton(
-				this, 0.9f, CircleBaseColor::Green, CircleBaseSize::Small
+				this, 1.f, CircleBaseColor::Green, CircleBaseSize::Small
 			);
 			shortcutButton->setZOrder(1);
 			auto menu = this->getChildByID("back-menu");
@@ -82,7 +82,7 @@ class $modify(LevelSearchLayer) {
 
 		if (Mod::get()->getSettingValue<bool>("enable-levelsearchlayer")) {
 			auto shortcutButton = ShortcutsLayer::addShortcutButton(
-				this, 0.9f, CircleBaseColor::Green, CircleBaseSize::Small
+				this, 1.f, CircleBaseColor::Green, CircleBaseSize::Small
 			);
 			auto menu = CCMenu::create();
 			menu->setZOrder(1);
@@ -104,7 +104,7 @@ class $modify(LevelInfoLayer) {
 
 		if (Mod::get()->getSettingValue<bool>("enable-levelinfolayer")) {
 			auto shortcutButton = ShortcutsLayer::addShortcutButton(
-				this, 0.9f, CircleBaseColor::Green, CircleBaseSize::Small
+				this, 1.f, CircleBaseColor::Green, CircleBaseSize::Small
 			);
 			shortcutButton->setZOrder(1);
 			auto menu = this->getChildByID("back-menu");
