@@ -84,9 +84,14 @@ class $modify(LevelSearchLayer) {
 			auto shortcutButton = ShortcutsLayer::addShortcutButton(
 				this, 0.9f, CircleBaseColor::Green, CircleBaseSize::Small
 			);
-			shortcutButton->setPositionY(-shortcutButton->getContentSize().height);
-			auto menu = this->getChildByID("exit-menu");
+			auto menu = CCMenu::create();
+			menu->setZOrder(1);
+			menu->setID("shortcut-menu"_spr);
 			menu->addChild(shortcutButton);
+			menu->setPosition(
+				shortcutButton->getContentSize() / 2 + CCPoint{8.f, 8.f}
+			);
+			this->addChild(menu);
 		}
 
 		return true;
