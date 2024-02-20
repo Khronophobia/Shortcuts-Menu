@@ -276,20 +276,6 @@ bool ShortcutsLayer::setup() {
 
     shopMenu->updateLayout();
 
-    /*
-    auto placeMenu = CCMenu::create();
-    placeMenu->ignoreAnchorPointForPosition(false);
-    placeMenu->setContentSize(m_size - CCSize{60.f, 70.f});
-    placeMenu->setPositionY(screenSize.height / 2 - 5.f);
-    placeMenu->setLayout(
-        AxisLayout::create()
-            ->setGrowCrossAxis(true)
-            ->setCrossAxisOverflow(false)
-            ->setGap(15.f)
-    );
-    page4Layer->addChild(placeMenu);
-    */
-
     ShortcutsLayer::refreshPage();
     return true;
 }
@@ -342,7 +328,7 @@ void ShortcutsLayer::refreshPage() {
             page3Layer->setVisible(true);
             break;
     }
-    pageDesc->setString(std::format("Page {} / {}", m_currentPage, m_maxPage).c_str());
+    pageDesc->setString(fmt::format("Page {} / {}", m_currentPage, m_maxPage).c_str());
 }
 
 void ShortcutsLayer::onScene(CCObject* sender) {
