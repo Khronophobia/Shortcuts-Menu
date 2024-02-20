@@ -1,9 +1,5 @@
 # Shortcuts Menu
 
-A menu that takes you to various parts of the game.
+Shortcuts Menu is a Geometry Dash mod that adds a menu that takes you to various parts of the game, accessible through a button.
 
-TODO before official release (v1.0.0):
-- ~~Add the shortcut button to more places~~
-- ~~Check if you've unlocked the vaults~~
-- Test if it works on Android
-- Add logo
+![Screenshot](screenshot.png)
