@@ -146,7 +146,7 @@ bool ShortcutsLayer::setup() {
 
     // Vault
     if (
-        !(9 < GameStatsManager::sharedState()->getStat("12")) &&
+        (GameStatsManager::sharedState()->getStat("12") < 10) &&
         Mod::get()->getSettingValue<bool>("hide-spoilers")
     ) {
         log::info("Hide Spoilers enabled: Hiding Vault");
@@ -162,7 +162,7 @@ bool ShortcutsLayer::setup() {
     }
     // Vault of Secrets
     if (
-        !(49 < GameStatsManager::sharedState()->getStat("13")) &&
+        (GameStatsManager::sharedState()->getStat("13") < 50) &&
         Mod::get()->getSettingValue<bool>("hide-spoilers")
     ) {
         log::info("Hide Spoilers enabled: Hiding Vault of Secrets");
@@ -183,17 +183,17 @@ bool ShortcutsLayer::setup() {
     }
     // Chamber of Time
     if (
-        GameManager::sharedState()->getUGV("8") ||
-        !Mod::get()->getSettingValue<bool>("hide-spoilers")
+        !GameManager::sharedState()->getUGV("8") &&
+        Mod::get()->getSettingValue<bool>("hide-spoilers")
     ) {
+        log::info("Hide Spoilers enabled: Hiding Chamber of Time");
+    } else {
         auto vault3Btn = CCMenuItemSpriteExtra::create(
             CCSprite::createWithSpriteFrameName("GJ_secretLock3_001.png"),
             this,
             menu_selector(LevelPage::onSecretDoor)
         );
         vaultMenu->addChild(vault3Btn);
-    } else {
-        log::info("Hide Spoilers enabled: Hiding Chamber of Time");
     }
 
     vaultMenu->updateLayout();
