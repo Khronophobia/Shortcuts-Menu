@@ -9,6 +9,7 @@
 	"name": "Shortcuts Menu",
 	"developer": "Khronophobia",
 	"description": "Adds a shortcut button that takes you to various parts of the game.",
+	"repository": "https://github.com/Khronophobia/Shortcuts-Menu",
 	"resources": {
 		"spritesheets": {
 			"ShortcutsMenu": [
