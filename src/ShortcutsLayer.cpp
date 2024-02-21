@@ -7,7 +7,7 @@ using namespace geode::prelude;
 bool ShortcutsLayer::setup() {
     // This spritesheet isn't loaded by default. Not sure if there's a better way to handle this.
     // Also, idk if I should deload this manually or if it'll deload automatically.
-    CCSpriteFrameCache::get()->addSpriteFramesWithFile("SecretSheet.plist");
+    CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("SecretSheet.plist");
     m_currentPage = 1;
     m_maxPage = 3;
     this->setTitle("Shortcuts Menu", "bigFont.fnt");
