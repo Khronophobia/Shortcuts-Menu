@@ -31,6 +31,12 @@
 			"type": "bool",
 			"default": true
 		},
+		"spoilers-silhouette": {
+			"name": "Show Spoilers as Silhouettes",
+			"description": "Only applicable if Hide Spoilers is enabled. Show locked shortcuts as silhouettes instead of completely hiding them.",
+			"type": "bool",
+			"default": false
+		},
 		"enable-menulayer": {
 			"name": "Enable in MenuLayer",
 			"type": "bool",
@@ -63,6 +69,7 @@
 		}
 	},
 	"tags": [
-		"Convenience"
+		"enhancement",
+		"interface"
 	]
 }

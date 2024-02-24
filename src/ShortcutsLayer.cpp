@@ -151,8 +151,10 @@ bool ShortcutsLayer::setup() {
         Mod::get()->getSettingValue<bool>("hide-spoilers")
     ) {
         log::info("Hide Spoilers enabled: Hiding Vault");
-        auto vault1Spr = CCSprite::createWithSpriteFrameName("vaultLocked.png"_spr);
-        vaultMenu->addChild(vault1Spr);
+        if (Mod::get()->getSettingValue<bool>("spoilers-silhouette")) {
+            auto vault1Spr = CCSprite::createWithSpriteFrameName("vaultLocked.png"_spr);
+            vaultMenu->addChild(vault1Spr);
+        }
     } else {
         auto vault1Btn = CCMenuItemSpriteExtra::create(
             CCSprite::createWithSpriteFrameName("GJ_secretLock_001.png"),
@@ -167,8 +169,10 @@ bool ShortcutsLayer::setup() {
         Mod::get()->getSettingValue<bool>("hide-spoilers")
     ) {
         log::info("Hide Spoilers enabled: Hiding Vault of Secrets");
-        auto vault2Spr = CCSprite::createWithSpriteFrameName("vaultLocked.png"_spr);
-        vaultMenu->addChild(vault2Spr);
+        if (Mod::get()->getSettingValue<bool>("spoilers-silhouette")) {
+            auto vault2Spr = CCSprite::createWithSpriteFrameName("vaultLocked.png"_spr);
+            vaultMenu->addChild(vault2Spr);
+        }
     } else {
         auto vault2Spr = CCSprite::createWithSpriteFrameName("GJ_secretLock2_001.png");
         auto vault2Spr2 = CCSprite::createWithSpriteFrameName("GJ_secretLock2_2_001.png");
@@ -188,6 +192,10 @@ bool ShortcutsLayer::setup() {
         Mod::get()->getSettingValue<bool>("hide-spoilers")
     ) {
         log::info("Hide Spoilers enabled: Hiding Chamber of Time");
+        if (Mod::get()->getSettingValue<bool>("spoilers-silhouette")) {
+            auto vault3Spr = CCSprite::createWithSpriteFrameName("vaultLocked.png"_spr);
+            vaultMenu->addChild(vault3Spr);
+        }
     } else {
         auto vault3Btn = CCMenuItemSpriteExtra::create(
             CCSprite::createWithSpriteFrameName("GJ_secretLock3_001.png"),
@@ -195,6 +203,16 @@ bool ShortcutsLayer::setup() {
             menu_selector(LevelPage::onSecretDoor)
         );
         vaultMenu->addChild(vault3Btn);
+    }
+
+    if (vaultMenu->getChildrenCount() == 0) {
+        auto encouragementText = CCLabelBMFont::create(
+            "Nothing here yet...\nPlay the game to unlock more.",
+            "goldFont.fnt",
+            1000.f,
+            CCTextAlignment::kCCTextAlignmentCenter
+        );
+        vaultMenu->addChild(encouragementText);
     }
 
     vaultMenu->updateLayout();
@@ -237,8 +255,10 @@ bool ShortcutsLayer::setup() {
         Mod::get()->getSettingValue<bool>("hide-spoilers")
     ) {
         log::info("Hide Spoilers enabled: Hiding Scratch's shop");
-        auto secretShopSpr = CCSprite::createWithSpriteFrameName("secretShopButtonLocked.png"_spr);
-        shopMenu->addChild(secretShopSpr);
+        if (Mod::get()->getSettingValue<bool>("spoilers-silhouette")) {
+            auto secretShopSpr = CCSprite::createWithSpriteFrameName("secretShopButtonLocked.png"_spr);
+            shopMenu->addChild(secretShopSpr);
+        }
     } else {
         auto secretShop1Spr = CCSprite::createWithSpriteFrameName("secretShopButton1.png"_spr);
         auto secretShop1Btn = CCMenuItemSpriteExtra::create(
@@ -255,8 +275,10 @@ bool ShortcutsLayer::setup() {
         Mod::get()->getSettingValue<bool>("hide-spoilers")
     ) {
         log::info("Hide Spoilers enabled: Hiding Community shop");
-        auto secretShop2Spr = CCSprite::createWithSpriteFrameName("secretShopButtonLocked.png"_spr);
-        shopMenu->addChild(secretShop2Spr);
+        if (Mod::get()->getSettingValue<bool>("spoilers-silhouette")) {
+            auto secretShop2Spr = CCSprite::createWithSpriteFrameName("secretShopButtonLocked.png"_spr);
+            shopMenu->addChild(secretShop2Spr);
+        }
     } else {
         auto secretShop2Spr = CCSprite::createWithSpriteFrameName("secretShopButton2.png"_spr);
         auto secretShop2Btn = CCMenuItemSpriteExtra::create(
@@ -273,8 +295,10 @@ bool ShortcutsLayer::setup() {
         Mod::get()->getSettingValue<bool>("hide-spoilers")
     ) {
         log::info("Hide Spoilers enabled: Hiding Mechanic's shop");
-        auto secretShop3Spr = CCSprite::createWithSpriteFrameName("secretShopButtonLocked.png"_spr);
-        shopMenu->addChild(secretShop3Spr);
+        if (Mod::get()->getSettingValue<bool>("spoilers-silhouette")) {
+            auto secretShop3Spr = CCSprite::createWithSpriteFrameName("secretShopButtonLocked.png"_spr);
+            shopMenu->addChild(secretShop3Spr);
+        }
     } else {
         auto secretShop3Spr = CCSprite::createWithSpriteFrameName("secretShopButton3.png"_spr);
         auto secretShop3Btn = CCMenuItemSpriteExtra::create(
@@ -291,8 +315,10 @@ bool ShortcutsLayer::setup() {
         Mod::get()->getSettingValue<bool>("hide-spoilers")
     ) {
         log::info("Hide Spoilers enabled: Hiding Diamond shop");
-        auto secretShop4Spr = CCSprite::createWithSpriteFrameName("secretShopButtonLocked.png"_spr);
-        shopMenu->addChild(secretShop4Spr);
+        if (Mod::get()->getSettingValue<bool>("spoilers-silhouette")) {
+            auto secretShop4Spr = CCSprite::createWithSpriteFrameName("secretShopButtonLocked.png"_spr);
+            shopMenu->addChild(secretShop4Spr);
+        }
     } else {
         auto secretShop4Spr = CCSprite::createWithSpriteFrameName("secretShopButton4.png"_spr);
         auto secretShop4Btn = CCMenuItemSpriteExtra::create(
