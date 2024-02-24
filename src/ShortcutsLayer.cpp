@@ -82,7 +82,7 @@ bool ShortcutsLayer::setup() {
     page1Layer->addChild(placeMenu);
 
     auto mainMenuBtn = CCMenuItemSpriteExtra::create(
-        CrossButtonSprite::createWithSpriteFrameName("menuArrow.png"_spr, 0.6f),
+        CrossButtonSprite::createWithSpriteFrameName("menuBtn.png"_spr),
         this,
         menu_selector(ShortcutsLayer::onScene)
     );
