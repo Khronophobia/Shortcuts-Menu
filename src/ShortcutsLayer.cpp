@@ -20,7 +20,7 @@ bool ShortcutsLayer::setup() {
     prevPageBtn->setTag(-1);
     prevPageBtn->setPosition({
         -screenSize.width / 2
-            + prevPageBtn->getContentSize().width / 2
+            + prevPageBtn->getContentWidth() / 2
             + 4,
         0
     });
@@ -32,7 +32,7 @@ bool ShortcutsLayer::setup() {
     nextPageBtn->setTag(1);
     nextPageBtn->setPosition({
         screenSize.width / 2
-            - nextPageBtn->getContentSize().width / 2
+            - nextPageBtn->getContentWidth() / 2
             - 4,
         0
     });
@@ -51,8 +51,8 @@ bool ShortcutsLayer::setup() {
     pageDesc->setScale(0.5f);
     pageDesc->setPosition(screenSize / 2 - CCPoint{
         0,
-        m_bgSprite->getContentSize().height / 2
-            - pageDesc->getContentSize().height / 2
+        m_bgSprite->getContentHeight() / 2
+            - pageDesc->getContentHeight() / 2
     });
     m_mainLayer->addChild(pageDesc);
 
