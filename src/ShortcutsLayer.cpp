@@ -162,6 +162,7 @@ bool ShortcutsLayer::setup() {
         m_size / 2 - CCPoint{0.f, 5.f}
     );
     vaultMenu->setLayout(AxisLayout::create()->setGap(25.f));
+    vaultMenu->setID("vaults-menu"_spr);
     m_page2Layer->addChild(vaultMenu);
 
     // Vault
@@ -180,6 +181,7 @@ bool ShortcutsLayer::setup() {
             this,
             menu_selector(OptionsLayer::onSecretVault)
         );
+        vault1Btn->setID("vault1-button"_spr);
         vaultMenu->addChild(vault1Btn);
     }
     // Vault of Secrets
@@ -203,6 +205,7 @@ bool ShortcutsLayer::setup() {
             menu_selector(CreatorLayer::onSecretVault)
         );
         vault2Spr2->setPosition(vault2Spr->getPosition());
+        vault2Btn->setID("vault2-button"_spr);
         vaultMenu->addChild(vault2Btn);
     }
     // Chamber of Time
@@ -221,6 +224,7 @@ bool ShortcutsLayer::setup() {
             this,
             menu_selector(LevelPage::onSecretDoor)
         );
+        vault3Btn->setID("vault3-button"_spr);
         vaultMenu->addChild(vault3Btn);
     }
 
@@ -231,6 +235,7 @@ bool ShortcutsLayer::setup() {
             1000.f,
             CCTextAlignment::kCCTextAlignmentCenter
         );
+        encouragementText->setID("encouragement-text"_spr);
         vaultMenu->addChild(encouragementText);
     }
 
@@ -256,6 +261,7 @@ bool ShortcutsLayer::setup() {
             ->setGrowCrossAxis(true)
             ->setCrossAxisOverflow(false)
     );
+    shopMenu->setID("shops-menu"_spr);
     m_page3Layer->addChild(shopMenu);
 
     auto shopSpr = CCSprite::createWithSpriteFrameName("shopButton.png"_spr);
@@ -269,6 +275,7 @@ bool ShortcutsLayer::setup() {
         AxisLayoutOptions::create()
             ->setBreakLine(true)
     );
+    shopBtn->setID("shop-button"_spr);
     shopMenu->addChild(shopBtn);
 
     // Scratch
@@ -289,6 +296,7 @@ bool ShortcutsLayer::setup() {
             menu_selector(SecretRewardsLayer::onShop)
         );
         secretShop1Btn->setTag(1);
+        secretShop1Btn->setID("secret-shop1-button"_spr);
         shopMenu->addChild(secretShop1Btn);
     }
     // Community
@@ -309,6 +317,7 @@ bool ShortcutsLayer::setup() {
             menu_selector(SecretRewardsLayer::onShop)
         );
         secretShop2Btn->setTag(2);
+        secretShop2Btn->setID("secret-shop2-button"_spr);
         shopMenu->addChild(secretShop2Btn);
     }
     // Mechanic
@@ -329,6 +338,7 @@ bool ShortcutsLayer::setup() {
             menu_selector(SecretRewardsLayer::onShop)
         );
         secretShop3Btn->setTag(3);
+        secretShop3Btn->setID("secret-shop3-button"_spr);
         shopMenu->addChild(secretShop3Btn);
     }
     // Diamond
@@ -349,6 +359,7 @@ bool ShortcutsLayer::setup() {
             menu_selector(SecretRewardsLayer::onShop)
         );
         secretShop4Btn->setTag(4);
+        secretShop4Btn->setID("secret-shop4-button"_spr);
         shopMenu->addChild(secretShop4Btn);
     }
 
