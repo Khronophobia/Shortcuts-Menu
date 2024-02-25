@@ -11,6 +11,7 @@ bool ShortcutsLayer::setup() {
     m_currentPage = 1;
     m_maxPage = 3;
     this->setTitle("Shortcuts Menu", "bigFont.fnt");
+    this->setID("ShortcutsLayer");
     auto screenSize = CCDirector::sharedDirector()->getWinSize();
 
     auto prevPageSpr = CCSprite::createWithSpriteFrameName("GJ_arrow_01_001.png");
@@ -45,6 +46,7 @@ bool ShortcutsLayer::setup() {
         menu_selector(ShortcutsLayer::onModSettings)
     );
     modSettingsBtn->setPosition(m_size / 2 - CCPoint{3, 3});
+    modSettingsBtn->setID("mod-settings-button"_spr);
     m_buttonMenu->addChild(modSettingsBtn);
 
     pageDesc = CCLabelBMFont::create("Page Desc", "bigFont.fnt");
@@ -68,18 +70,19 @@ bool ShortcutsLayer::setup() {
     m_mainLayer->addChild(page2Layer);
     m_mainLayer->addChild(page3Layer);
 
-    // Page 1 (Menus)
-    auto placeMenu = CCMenu::create();
-    placeMenu->ignoreAnchorPointForPosition(false);
-    placeMenu->setContentSize(m_size - CCSize{60.f, 70.f});
-    placeMenu->setPositionY(screenSize.height / 2 - 5.f);
-    placeMenu->setLayout(
+    // Page 1 (Utilities)
+    auto utilsMenu = CCMenu::create();
+    utilsMenu->ignoreAnchorPointForPosition(false);
+    utilsMenu->setContentSize(m_size - CCSize{60.f, 70.f});
+    utilsMenu->setPositionY(screenSize.height / 2 - 5.f);
+    utilsMenu->setLayout(
         AxisLayout::create()
             ->setGrowCrossAxis(true)
             ->setCrossAxisOverflow(false)
             ->setGap(10.f)
     );
-    page1Layer->addChild(placeMenu);
+    utilsMenu->setID("utils-menu"_spr);
+    page1Layer->addChild(utilsMenu);
 
     auto mainMenuBtn = CCMenuItemSpriteExtra::create(
         CrossButtonSprite::createWithSpriteFrameName("menuBtn.png"_spr),
@@ -87,11 +90,13 @@ bool ShortcutsLayer::setup() {
         menu_selector(ShortcutsLayer::onScene)
     );
     mainMenuBtn->setUserObject(MenuLayer::scene(false));
+    mainMenuBtn->setID("main-menu-button"_spr);
     auto garageBtn = CCMenuItemSpriteExtra::create(
         CCSprite::createWithSpriteFrameName("GJ_garageBtn_001.png"),
         this,
         menu_selector(LevelInfoLayer::onGarage)
     );
+    garageBtn->setID("icon-kit-button"_spr);
     auto creatorBtn = CCMenuItemSpriteExtra::create(
         CCSprite::createWithSpriteFrameName("GJ_creatorBtn_001.png"),
         this,
@@ -101,17 +106,20 @@ bool ShortcutsLayer::setup() {
     creatorBtn->setLayoutOptions(
         AxisLayoutOptions::create()->setBreakLine(true)
     );
+    creatorBtn->setID("editor-button"_spr);
 
     auto exitBtn = CCMenuItemSpriteExtra::create(
         CCSprite::createWithSpriteFrameName("GJ_closeBtn_001.png"),
         this,
         menu_selector(ShortcutsLayer::onQuit)
     );
+    exitBtn->setID("close-button"_spr);
     auto restartBtn = CCMenuItemSpriteExtra::create(
         CCSprite::createWithSpriteFrameName("GJ_updateBtn_001.png"),
         this,
         menu_selector(ShortcutsLayer::onRestart)
     );
+    restartBtn->setID("restart-button"_spr);
     auto geodeBtn = CCMenuItemSpriteExtra::create(
         CircleButtonSprite::createWithSpriteFrameName(
             "geode.loader/geode-logo-outline-gold.png"
@@ -119,21 +127,23 @@ bool ShortcutsLayer::setup() {
         this,
         menu_selector(ShortcutsLayer::onModsList)
     );
+    geodeBtn->setID("geode-button"_spr);
     auto settingsBtn = CCMenuItemSpriteExtra::create(
         CCSprite::createWithSpriteFrameName("GJ_optionsBtn_001.png"),
         this,
         menu_selector(MenuLayer::onOptions)
     );
+    settingsBtn->setID("settings-button"_spr);
 
-    placeMenu->addChild(garageBtn);
-    placeMenu->addChild(mainMenuBtn);
-    placeMenu->addChild(creatorBtn);
+    utilsMenu->addChild(garageBtn);
+    utilsMenu->addChild(mainMenuBtn);
+    utilsMenu->addChild(creatorBtn);
     // Line break
-    placeMenu->addChild(exitBtn);
-    placeMenu->addChild(restartBtn);
-    placeMenu->addChild(geodeBtn);
-    placeMenu->addChild(settingsBtn);
-    placeMenu->updateLayout();
+    utilsMenu->addChild(exitBtn);
+    utilsMenu->addChild(restartBtn);
+    utilsMenu->addChild(geodeBtn);
+    utilsMenu->addChild(settingsBtn);
+    utilsMenu->updateLayout();
 
     // Page 2 (Vault Shortcuts)
     auto vaultMenu = CCMenu::create();
