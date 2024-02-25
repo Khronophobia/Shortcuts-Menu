@@ -13,30 +13,31 @@ bool ShortcutsLayer::setup() {
     this->setTitle("Shortcuts Menu", "bigFont.fnt");
     this->setID("ShortcutsLayer");
     auto screenSize = CCDirector::sharedDirector()->getWinSize();
+    auto sizeDiff = screenSize / 2 - m_size / 2;
 
     auto prevPageSpr = CCSprite::createWithSpriteFrameName("GJ_arrow_01_001.png");
     auto prevPageBtn = CCMenuItemSpriteExtra::create(
         prevPageSpr, this, menu_selector(ShortcutsLayer::onChangePage)
     );
     prevPageBtn->setTag(-1);
-    prevPageBtn->setPosition({
-        -screenSize.width / 2
+    prevPageBtn->setPosition(
+        -sizeDiff.width
             + prevPageBtn->getContentWidth() / 2
             + 4,
-        0
-    });
+        m_size.height / 2
+    );
     auto nextPageSpr = CCSprite::createWithSpriteFrameName("GJ_arrow_01_001.png");
     nextPageSpr->setFlipX(true);
     auto nextPageBtn = CCMenuItemSpriteExtra::create(
         nextPageSpr, this, menu_selector(ShortcutsLayer::onChangePage)
     );
     nextPageBtn->setTag(1);
-    nextPageBtn->setPosition({
-        screenSize.width / 2
+    nextPageBtn->setPosition(
+        m_size.width + sizeDiff.width
             - nextPageBtn->getContentWidth() / 2
             - 4,
-        0
-    });
+        m_size.height / 2
+    );
     m_buttonMenu->addChild(prevPageBtn);
     m_buttonMenu->addChild(nextPageBtn);
 
@@ -45,36 +46,41 @@ bool ShortcutsLayer::setup() {
         this,
         menu_selector(ShortcutsLayer::onModSettings)
     );
-    modSettingsBtn->setPosition(m_size / 2 - CCPoint{3, 3});
+    modSettingsBtn->setPosition(m_size - CCPoint{3, 3});
     modSettingsBtn->setID("mod-settings-button"_spr);
     m_buttonMenu->addChild(modSettingsBtn);
 
-    pageDesc = CCLabelBMFont::create("Page Desc", "bigFont.fnt");
-    pageDesc->setScale(0.5f);
-    pageDesc->setPosition(screenSize / 2 - CCPoint{
+    m_pageDesc = CCLabelBMFont::create("Page Desc", "bigFont.fnt");
+    m_pageDesc->setScale(0.5f);
+    m_pageDesc->setPosition(m_size / 2 - CCPoint{
         0,
         m_bgSprite->getContentHeight() / 2
-            - pageDesc->getContentHeight() / 2
+            - m_pageDesc->getContentHeight() / 2
     });
-    m_mainLayer->addChild(pageDesc);
+    m_mainLayer->addChild(m_pageDesc);
 
     // Page Layers
-    page1Layer = CCLayer::create();
-    page1Layer->setID("page-1"_spr);
-    page2Layer = CCLayer::create();
-    page2Layer->setID("page-2"_spr);
-    page3Layer = CCLayer::create();
-    page3Layer->setID("page-3"_spr);
+    m_page1Layer = CCLayer::create();
+    m_page1Layer->setContentSize(m_size);
+    m_page1Layer->setID("page-1"_spr);
+    m_page2Layer = CCLayer::create();
+    m_page2Layer->setContentSize(m_size);
+    m_page2Layer->setID("page-2"_spr);
+    m_page3Layer = CCLayer::create();
+    m_page3Layer->setContentSize(m_size);
+    m_page3Layer->setID("page-3"_spr);
 
-    m_mainLayer->addChild(page1Layer);
-    m_mainLayer->addChild(page2Layer);
-    m_mainLayer->addChild(page3Layer);
+    m_mainLayer->addChild(m_page1Layer);
+    m_mainLayer->addChild(m_page2Layer);
+    m_mainLayer->addChild(m_page3Layer);
 
     // Page 1 (Utilities)
     auto utilsMenu = CCMenu::create();
     utilsMenu->ignoreAnchorPointForPosition(false);
-    utilsMenu->setContentSize(m_size - CCSize{60.f, 70.f});
-    utilsMenu->setPositionY(screenSize.height / 2 - 5.f);
+    utilsMenu->setContentSize(m_size - CCSize{60.f, 60.f});
+    utilsMenu->setPosition(
+        m_size / 2 - CCPoint{0.f, 5.f}
+    );
     utilsMenu->setLayout(
         AxisLayout::create()
             ->setGrowCrossAxis(true)
@@ -82,7 +88,7 @@ bool ShortcutsLayer::setup() {
             ->setGap(10.f)
     );
     utilsMenu->setID("utils-menu"_spr);
-    page1Layer->addChild(utilsMenu);
+    m_page1Layer->addChild(utilsMenu);
 
     auto mainMenuBtn = CCMenuItemSpriteExtra::create(
         CrossButtonSprite::createWithSpriteFrameName("menuBtn.png"_spr),
@@ -152,8 +158,11 @@ bool ShortcutsLayer::setup() {
         m_size.width - 60.f,
         60.f
     });
+    vaultMenu->setPosition(
+        m_size / 2 - CCPoint{0.f, 5.f}
+    );
     vaultMenu->setLayout(AxisLayout::create()->setGap(25.f));
-    page2Layer->addChild(vaultMenu);
+    m_page2Layer->addChild(vaultMenu);
 
     // Vault
     if (
@@ -237,14 +246,17 @@ bool ShortcutsLayer::setup() {
     */
     auto shopMenu = CCMenu::create();
     shopMenu->ignoreAnchorPointForPosition(false);
-    shopMenu->setContentSize(m_size - CCSize{60.f, 70.f});
+    shopMenu->setContentSize(m_size - CCSize{60.f, 60.f});
+    shopMenu->setPosition(
+        m_size / 2 - CCPoint{0.f, 5.f}
+    );
     shopMenu->setLayout(
         AxisLayout::create()
             ->setGap(15.f)
             ->setGrowCrossAxis(true)
             ->setCrossAxisOverflow(false)
     );
-    page3Layer->addChild(shopMenu);
+    m_page3Layer->addChild(shopMenu);
 
     auto shopSpr = CCSprite::createWithSpriteFrameName("shopButton.png"_spr);
     shopSpr->setScale(1.25f);
@@ -349,7 +361,7 @@ bool ShortcutsLayer::setup() {
 ShortcutsLayer* ShortcutsLayer::create() {
     auto ret = new ShortcutsLayer();
 
-    if (ret && ret->init(400.f, 260.f)) {
+    if (ret && ret->initAnchored(400.f, 260.f)) {
         ret->autorelease();
         return ret;
     }
@@ -377,24 +389,24 @@ void ShortcutsLayer::refreshPage() {
     switch(m_currentPage) {
         case 1:
             pageTitle = "Menus";
-            page1Layer->setVisible(true);
-            page2Layer->setVisible(false);
-            page3Layer->setVisible(false);
+            m_page1Layer->setVisible(true);
+            m_page2Layer->setVisible(false);
+            m_page3Layer->setVisible(false);
             break;
         case 2:
             pageTitle = "Vaults";
-            page1Layer->setVisible(false);
-            page2Layer->setVisible(true);
-            page3Layer->setVisible(false);
+            m_page1Layer->setVisible(false);
+            m_page2Layer->setVisible(true);
+            m_page3Layer->setVisible(false);
             break;
         case 3:
             pageTitle = "Shops";
-            page1Layer->setVisible(false);
-            page2Layer->setVisible(false);
-            page3Layer->setVisible(true);
+            m_page1Layer->setVisible(false);
+            m_page2Layer->setVisible(false);
+            m_page3Layer->setVisible(true);
             break;
     }
-    pageDesc->setString(fmt::format("Page {} / {}", m_currentPage, m_maxPage).c_str());
+    m_pageDesc->setString(fmt::format("Page {} / {}", m_currentPage, m_maxPage).c_str());
 }
 
 void ShortcutsLayer::onScene(CCObject* sender) {
