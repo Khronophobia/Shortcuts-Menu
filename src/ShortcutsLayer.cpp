@@ -8,8 +8,6 @@ bool ShortcutsLayer::setup() {
     // This spritesheet isn't loaded by default. Not sure if there's a better way to handle this.
     // Also, idk if I should deload this manually or if it'll deload automatically.
     CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("SecretSheet.plist");
-    m_currentPage = 0;
-    m_maxPage = 1;
     this->setTitle("Shortcuts Menu", "bigFont.fnt");
     this->setID("ShortcutsLayer");
     auto screenSize = CCDirector::sharedDirector()->getWinSize();
@@ -59,23 +57,16 @@ bool ShortcutsLayer::setup() {
     });
     m_mainLayer->addChild(m_pageDesc);
 
-    // Page Layers
-    auto page1Layer = CCLayer::create();
-    page1Layer->setContentSize(m_size);
-    page1Layer->setID("page-1"_spr);
-    auto page2Layer = CCLayer::create();
-    page2Layer->setContentSize(m_size);
-    page2Layer->setID("page-2"_spr);
-    auto page3Layer = CCLayer::create();
-    page3Layer->setContentSize(m_size);
-    page3Layer->setID("page-3"_spr);
-
-    m_pageLayers = CCLayerMultiplex::createWithLayer(page1Layer);
-    this->addPage(page2Layer);
-    this->addPage(page3Layer);
-
+    if (!this->initPages()) return false;
+    m_pageLayers = CCLayerMultiplex::createWithArray(m_pageList);
     m_mainLayer->addChild(m_pageLayers);
+    m_maxPage = m_pageList->count();
 
+    this->refreshPage();
+    return true;
+}
+
+bool ShortcutsLayer::initPages() {
     // Page 1 (Utilities)
     auto utilsMenu = CCMenu::create();
     utilsMenu->ignoreAnchorPointForPosition(false);
@@ -90,7 +81,6 @@ bool ShortcutsLayer::setup() {
             ->setGap(10.f)
     );
     utilsMenu->setID("utils-menu"_spr);
-    page1Layer->addChild(utilsMenu);
 
     auto mainMenuBtn = CCMenuItemSpriteExtra::create(
         CrossButtonSprite::createWithSpriteFrameName("menuBtn.png"_spr),
@@ -165,7 +155,6 @@ bool ShortcutsLayer::setup() {
     );
     vaultMenu->setLayout(AxisLayout::create()->setGap(25.f));
     vaultMenu->setID("vaults-menu"_spr);
-    page2Layer->addChild(vaultMenu);
 
     // Vault
     if (
@@ -264,7 +253,6 @@ bool ShortcutsLayer::setup() {
             ->setCrossAxisOverflow(false)
     );
     shopMenu->setID("shops-menu"_spr);
-    page3Layer->addChild(shopMenu);
 
     auto shopSpr = CCSprite::createWithSpriteFrameName("shopButton.png"_spr);
     shopSpr->setScale(1.25f);
@@ -367,7 +355,10 @@ bool ShortcutsLayer::setup() {
 
     shopMenu->updateLayout();
 
-    this->refreshPage();
+    this->addPage(utilsMenu);
+    this->addPage(vaultMenu);
+    this->addPage(shopMenu);
+
     return true;
 }
 
@@ -387,9 +378,8 @@ void ShortcutsLayer::onShortcut(CCObject* sender) {
     ShortcutsLayer::create()->show();
 }
 
-void ShortcutsLayer::addPage(CCLayer* layer) {;
-    m_maxPage++;
-    m_pageLayers->addLayer(layer);
+void ShortcutsLayer::addPage(CCNode* node) {
+    m_pageList->addObject(node);
 }
 
 void ShortcutsLayer::onChangePage(CCObject* sender) {
