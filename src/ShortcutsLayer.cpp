@@ -8,7 +8,7 @@ bool ShortcutsLayer::setup() {
     // This spritesheet isn't loaded by default. Not sure if there's a better way to handle this.
     // Also, idk if I should deload this manually or if it'll deload automatically.
     CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("SecretSheet.plist");
-    m_currentPage = 1;
+    m_currentPage = 0;
     m_maxPage = 1;
     this->setTitle("Shortcuts Menu", "bigFont.fnt");
     this->setID("ShortcutsLayer");
@@ -394,10 +394,10 @@ void ShortcutsLayer::addPage(CCLayer* layer) {;
 
 void ShortcutsLayer::onChangePage(CCObject* sender) {
     m_currentPage += sender->getTag();
-    if (m_currentPage < 1) {
-        m_currentPage = m_maxPage;
-    } else if (m_currentPage > m_maxPage) {
-        m_currentPage = 1;
+    if (m_currentPage < 0) {
+        m_currentPage = m_maxPage - 1;
+    } else if (m_currentPage > m_maxPage - 1) {
+        m_currentPage = 0;
     }
     ShortcutsLayer::refreshPage();
 }
@@ -405,9 +405,9 @@ void ShortcutsLayer::onChangePage(CCObject* sender) {
 void ShortcutsLayer::refreshPage() {
     std::string pageTitle;
 
-    m_pageLayers->switchTo(m_currentPage - 1);
+    m_pageLayers->switchTo(m_currentPage);
 
-    m_pageDesc->setString(fmt::format("Page {} / {}", m_currentPage, m_maxPage).c_str());
+    m_pageDesc->setString(fmt::format("Page {} / {}", m_currentPage + 1, m_maxPage).c_str());
 }
 
 void ShortcutsLayer::onScene(CCObject* sender) {
