@@ -60,19 +60,15 @@ bool ShortcutsLayer::setup() {
     m_mainLayer->addChild(m_pageDesc);
 
     // Page Layers
-    m_page1Layer = CCLayer::create();
-    m_page1Layer->setContentSize(m_size);
-    m_page1Layer->setID("page-1"_spr);
-    m_page2Layer = CCLayer::create();
-    m_page2Layer->setContentSize(m_size);
-    m_page2Layer->setID("page-2"_spr);
-    m_page3Layer = CCLayer::create();
-    m_page3Layer->setContentSize(m_size);
-    m_page3Layer->setID("page-3"_spr);
-
-    m_mainLayer->addChild(m_page1Layer);
-    m_mainLayer->addChild(m_page2Layer);
-    m_mainLayer->addChild(m_page3Layer);
+    auto page1Layer = CCLayer::create();
+    page1Layer->setContentSize(m_size);
+    page1Layer->setID("page-1"_spr);
+    auto page2Layer = CCLayer::create();
+    page2Layer->setContentSize(m_size);
+    page2Layer->setID("page-2"_spr);
+    auto page3Layer = CCLayer::create();
+    page3Layer->setContentSize(m_size);
+    page3Layer->setID("page-3"_spr);
 
     // Page 1 (Utilities)
     auto utilsMenu = CCMenu::create();
@@ -88,7 +84,7 @@ bool ShortcutsLayer::setup() {
             ->setGap(10.f)
     );
     utilsMenu->setID("utils-menu"_spr);
-    m_page1Layer->addChild(utilsMenu);
+    page1Layer->addChild(utilsMenu);
 
     auto mainMenuBtn = CCMenuItemSpriteExtra::create(
         CrossButtonSprite::createWithSpriteFrameName("menuBtn.png"_spr),
@@ -163,7 +159,7 @@ bool ShortcutsLayer::setup() {
     );
     vaultMenu->setLayout(AxisLayout::create()->setGap(25.f));
     vaultMenu->setID("vaults-menu"_spr);
-    m_page2Layer->addChild(vaultMenu);
+    page2Layer->addChild(vaultMenu);
 
     // Vault
     if (
@@ -262,7 +258,7 @@ bool ShortcutsLayer::setup() {
             ->setCrossAxisOverflow(false)
     );
     shopMenu->setID("shops-menu"_spr);
-    m_page3Layer->addChild(shopMenu);
+    page3Layer->addChild(shopMenu);
 
     auto shopSpr = CCSprite::createWithSpriteFrameName("shopButton.png"_spr);
     shopSpr->setScale(1.25f);
@@ -397,26 +393,7 @@ void ShortcutsLayer::onChangePage(CCObject* sender) {
 
 void ShortcutsLayer::refreshPage() {
     std::string pageTitle;
-    switch(m_currentPage) {
-        case 1:
-            pageTitle = "Menus";
-            m_page1Layer->setVisible(true);
-            m_page2Layer->setVisible(false);
-            m_page3Layer->setVisible(false);
-            break;
-        case 2:
-            pageTitle = "Vaults";
-            m_page1Layer->setVisible(false);
-            m_page2Layer->setVisible(true);
-            m_page3Layer->setVisible(false);
-            break;
-        case 3:
-            pageTitle = "Shops";
-            m_page1Layer->setVisible(false);
-            m_page2Layer->setVisible(false);
-            m_page3Layer->setVisible(true);
-            break;
-    }
+
     m_pageDesc->setString(fmt::format("Page {} / {}", m_currentPage, m_maxPage).c_str());
 }
 

@@ -9,9 +9,6 @@ protected:
     int m_maxPage;
     bool setup();
     void refreshPage();
-    CCLayer* m_page1Layer;
-    CCLayer* m_page2Layer;
-    CCLayer* m_page3Layer;
     CCLabelBMFont* m_pageDesc;
 public:
     static ShortcutsLayer* create();
