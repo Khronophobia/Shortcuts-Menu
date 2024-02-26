@@ -9,7 +9,7 @@ bool ShortcutsLayer::setup() {
     // Also, idk if I should deload this manually or if it'll deload automatically.
     CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("SecretSheet.plist");
     m_currentPage = 1;
-    m_maxPage = 3;
+    m_maxPage = 1;
     this->setTitle("Shortcuts Menu", "bigFont.fnt");
     this->setID("ShortcutsLayer");
     auto screenSize = CCDirector::sharedDirector()->getWinSize();
@@ -69,6 +69,12 @@ bool ShortcutsLayer::setup() {
     auto page3Layer = CCLayer::create();
     page3Layer->setContentSize(m_size);
     page3Layer->setID("page-3"_spr);
+
+    m_pageLayers = CCLayerMultiplex::createWithLayer(page1Layer);
+    this->addPage(page2Layer);
+    this->addPage(page3Layer);
+
+    m_mainLayer->addChild(m_pageLayers);
 
     // Page 1 (Utilities)
     auto utilsMenu = CCMenu::create();
@@ -361,7 +367,7 @@ bool ShortcutsLayer::setup() {
 
     shopMenu->updateLayout();
 
-    ShortcutsLayer::refreshPage();
+    this->refreshPage();
     return true;
 }
 
@@ -381,6 +387,11 @@ void ShortcutsLayer::onShortcut(CCObject* sender) {
     ShortcutsLayer::create()->show();
 }
 
+void ShortcutsLayer::addPage(CCLayer* layer) {;
+    m_maxPage++;
+    m_pageLayers->addLayer(layer);
+}
+
 void ShortcutsLayer::onChangePage(CCObject* sender) {
     m_currentPage += sender->getTag();
     if (m_currentPage < 1) {
@@ -393,6 +404,8 @@ void ShortcutsLayer::onChangePage(CCObject* sender) {
 
 void ShortcutsLayer::refreshPage() {
     std::string pageTitle;
+
+    m_pageLayers->switchTo(m_currentPage - 1);
 
     m_pageDesc->setString(fmt::format("Page {} / {}", m_currentPage, m_maxPage).c_str());
 }

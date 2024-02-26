@@ -10,9 +10,12 @@ protected:
     bool setup();
     void refreshPage();
     CCLabelBMFont* m_pageDesc;
+    CCLayerMultiplex* m_pageLayers;
+    CCArray* m_pageArrays;
 public:
     static ShortcutsLayer* create();
     void onShortcut(CCObject*);
+    void addPage(CCLayer* layer);
     void onChangePage(CCObject*);
     void onScene(CCObject*);
     void onRestart(CCObject*);
