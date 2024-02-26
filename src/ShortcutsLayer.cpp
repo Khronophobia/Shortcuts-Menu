@@ -382,6 +382,10 @@ void ShortcutsLayer::addPage(CCNode* node) {
     m_pageList->addObject(node);
 }
 
+void ShortcutsLayer::addPageAtIndex(CCNode* node, int index) {
+    m_pageList->insertObject(node, index);
+}
+
 void ShortcutsLayer::onChangePage(CCObject* sender) {
     m_currentPage += sender->getTag();
     if (m_currentPage < 0) {
