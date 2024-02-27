@@ -59,7 +59,9 @@ bool ShortcutsLayer::setup() {
 
     if (!this->initPages()) return false;
     m_pageLayers = CCLayerMultiplex::createWithArray(m_pageList);
-    m_mainLayer->addChild(m_pageLayers);
+    m_pageLayers->ignoreAnchorPointForPosition(false);
+    m_pageLayers->setLayout(AnchorLayout::create());
+    m_mainLayer->addChildAtPosition(m_pageLayers, Anchor::Center);
     m_maxPage = m_pageList->count();
 
     this->refreshPage();
@@ -71,8 +73,10 @@ bool ShortcutsLayer::initPages() {
     auto utilsMenu = CCMenu::create();
     utilsMenu->ignoreAnchorPointForPosition(false);
     utilsMenu->setContentSize(m_size - CCSize{60.f, 60.f});
-    utilsMenu->setPosition(
-        m_size / 2 - CCPoint{0.f, 5.f}
+    utilsMenu->setLayoutOptions(
+        AnchorLayoutOptions::create()
+            ->setAnchor(Anchor::Center)
+            ->setOffset({0.f, -4.f})
     );
     utilsMenu->setLayout(
         AxisLayout::create()
@@ -150,8 +154,10 @@ bool ShortcutsLayer::initPages() {
         m_size.width - 60.f,
         60.f
     });
-    vaultMenu->setPosition(
-        m_size / 2 - CCPoint{0.f, 5.f}
+    vaultMenu->setLayoutOptions(
+        AnchorLayoutOptions::create()
+            ->setAnchor(Anchor::Center)
+            ->setOffset({0.f, -4.f})
     );
     vaultMenu->setLayout(AxisLayout::create()->setGap(25.f));
     vaultMenu->setID("vaults-menu"_spr);
@@ -243,8 +249,10 @@ bool ShortcutsLayer::initPages() {
     auto shopMenu = CCMenu::create();
     shopMenu->ignoreAnchorPointForPosition(false);
     shopMenu->setContentSize(m_size - CCSize{60.f, 60.f});
-    shopMenu->setPosition(
-        m_size / 2 - CCPoint{0.f, 5.f}
+    shopMenu->setLayoutOptions(
+        AnchorLayoutOptions::create()
+            ->setAnchor(Anchor::Center)
+            ->setOffset({0.f, -4.f})
     );
     shopMenu->setLayout(
         AxisLayout::create()
