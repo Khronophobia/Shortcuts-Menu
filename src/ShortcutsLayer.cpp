@@ -56,6 +56,23 @@ bool ShortcutsLayer::setup() {
     m_mainLayer->addChildAtPosition(m_pageLayers, Anchor::Center);
     m_maxPage = m_pageList->count();
 
+    m_navigationMenu = CCMenu::create();
+    m_navigationMenu->ignoreAnchorPointForPosition(false);
+    m_navigationMenu->setLayout(RowLayout::create());
+    m_mainLayer->addChildAtPosition(m_navigationMenu, Anchor::Bottom, {0.f, -12.f});
+
+    for (int i = 0; i < m_maxPage; i++) {
+        auto navBtn = CCMenuItemSpriteExtra::create(
+            CCSprite::createWithSpriteFrameName("gj_navDotBtn_off_001.png"),
+            this,
+            menu_selector(ShortcutsLayer::onNavigate)
+        );
+        navBtn->setTag(i);
+        m_navigationMenu->addChild(navBtn);
+    }
+    m_navigationMenu->updateLayout();
+    m_navigateButtonList = m_navigationMenu->getChildren();
+
     this->refreshPage();
     return true;
 }
@@ -402,10 +419,23 @@ void ShortcutsLayer::onChangePage(CCObject* sender) {
     ShortcutsLayer::refreshPage();
 }
 
+void ShortcutsLayer::onNavigate(CCObject* sender) {
+    m_currentPage = sender->getTag();
+    ShortcutsLayer::refreshPage();
+}
+
 void ShortcutsLayer::refreshPage() {
     m_pageLayers->switchTo(m_currentPage);
-
     m_pageDesc->setString(m_pageDescList.at(m_currentPage).c_str());
+
+    for (int i = 0; i < m_maxPage; i++) {
+        auto btn = static_cast<CCMenuItemSpriteExtra*>(m_navigateButtonList->objectAtIndex(i));
+        if (btn->getTag() == m_currentPage) {
+            btn->setNormalImage(CCSprite::createWithSpriteFrameName("gj_navDotBtn_on_001.png"));
+        } else {
+            btn->setNormalImage(CCSprite::createWithSpriteFrameName("gj_navDotBtn_off_001.png"));
+        }
+    }
 }
 
 void ShortcutsLayer::onScene(CCObject* sender) {
