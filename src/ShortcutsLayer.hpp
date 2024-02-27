@@ -5,17 +5,19 @@ using namespace geode::prelude;
 
 class ShortcutsLayer : public Popup<> {
 protected:
-    int m_currentPage;
+    int m_currentPage = 0;
     int m_maxPage;
     bool setup();
+    bool initPages();
     void refreshPage();
-    CCLayer* m_page1Layer;
-    CCLayer* m_page2Layer;
-    CCLayer* m_page3Layer;
     CCLabelBMFont* m_pageDesc;
+    CCLayerMultiplex* m_pageLayers;
+    CCArray* m_pageList = CCArray::create();
 public:
     static ShortcutsLayer* create();
     void onShortcut(CCObject*);
+    void addPage(CCNode* node, int index, std::string pageDesc);
+    void addPage(CCNode* node, std::string pageDesc);
     void onChangePage(CCObject*);
     void onScene(CCObject*);
     void onRestart(CCObject*);

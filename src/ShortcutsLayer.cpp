@@ -8,8 +8,6 @@ bool ShortcutsLayer::setup() {
     // This spritesheet isn't loaded by default. Not sure if there's a better way to handle this.
     // Also, idk if I should deload this manually or if it'll deload automatically.
     CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("SecretSheet.plist");
-    m_currentPage = 1;
-    m_maxPage = 3;
     this->setTitle("Shortcuts Menu", "bigFont.fnt");
     this->setID("ShortcutsLayer");
     auto screenSize = CCDirector::sharedDirector()->getWinSize();
@@ -55,27 +53,26 @@ bool ShortcutsLayer::setup() {
         m_pageDesc, Anchor::Bottom, {0, m_pageDesc->getContentHeight() / 2}
     );
 
-    // Page Layers
-    m_page1Layer = CCLayer::create();
-    m_page1Layer->setContentSize(m_size);
-    m_page1Layer->setID("page-1"_spr);
-    m_page2Layer = CCLayer::create();
-    m_page2Layer->setContentSize(m_size);
-    m_page2Layer->setID("page-2"_spr);
-    m_page3Layer = CCLayer::create();
-    m_page3Layer->setContentSize(m_size);
-    m_page3Layer->setID("page-3"_spr);
+    if (!this->initPages()) return false;
+    m_pageLayers = CCLayerMultiplex::createWithArray(m_pageList);
+    m_pageLayers->ignoreAnchorPointForPosition(false);
+    m_pageLayers->setLayout(AnchorLayout::create());
+    m_mainLayer->addChildAtPosition(m_pageLayers, Anchor::Center);
+    m_maxPage = m_pageList->count();
 
-    m_mainLayer->addChild(m_page1Layer);
-    m_mainLayer->addChild(m_page2Layer);
-    m_mainLayer->addChild(m_page3Layer);
+    this->refreshPage();
+    return true;
+}
 
+bool ShortcutsLayer::initPages() {
     // Page 1 (Utilities)
     auto utilsMenu = CCMenu::create();
     utilsMenu->ignoreAnchorPointForPosition(false);
     utilsMenu->setContentSize(m_size - CCSize{60.f, 60.f});
-    utilsMenu->setPosition(
-        m_size / 2 - CCPoint{0.f, 5.f}
+    utilsMenu->setLayoutOptions(
+        AnchorLayoutOptions::create()
+            ->setAnchor(Anchor::Center)
+            ->setOffset({0.f, -4.f})
     );
     utilsMenu->setLayout(
         AxisLayout::create()
@@ -84,7 +81,6 @@ bool ShortcutsLayer::setup() {
             ->setGap(10.f)
     );
     utilsMenu->setID("utils-menu"_spr);
-    m_page1Layer->addChild(utilsMenu);
 
     auto mainMenuBtn = CCMenuItemSpriteExtra::create(
         CrossButtonSprite::createWithSpriteFrameName("menuBtn.png"_spr),
@@ -154,12 +150,13 @@ bool ShortcutsLayer::setup() {
         m_size.width - 60.f,
         60.f
     });
-    vaultMenu->setPosition(
-        m_size / 2 - CCPoint{0.f, 5.f}
+    vaultMenu->setLayoutOptions(
+        AnchorLayoutOptions::create()
+            ->setAnchor(Anchor::Center)
+            ->setOffset({0.f, -4.f})
     );
     vaultMenu->setLayout(AxisLayout::create()->setGap(25.f));
     vaultMenu->setID("vaults-menu"_spr);
-    m_page2Layer->addChild(vaultMenu);
 
     // Vault
     if (
@@ -248,8 +245,10 @@ bool ShortcutsLayer::setup() {
     auto shopMenu = CCMenu::create();
     shopMenu->ignoreAnchorPointForPosition(false);
     shopMenu->setContentSize(m_size - CCSize{60.f, 60.f});
-    shopMenu->setPosition(
-        m_size / 2 - CCPoint{0.f, 5.f}
+    shopMenu->setLayoutOptions(
+        AnchorLayoutOptions::create()
+            ->setAnchor(Anchor::Center)
+            ->setOffset({0.f, -4.f})
     );
     shopMenu->setLayout(
         AxisLayout::create()
@@ -258,7 +257,6 @@ bool ShortcutsLayer::setup() {
             ->setCrossAxisOverflow(false)
     );
     shopMenu->setID("shops-menu"_spr);
-    m_page3Layer->addChild(shopMenu);
 
     auto shopSpr = CCSprite::createWithSpriteFrameName("shopButton.png"_spr);
     shopSpr->setScale(1.25f);
@@ -361,7 +359,10 @@ bool ShortcutsLayer::setup() {
 
     shopMenu->updateLayout();
 
-    ShortcutsLayer::refreshPage();
+    this->addPage(utilsMenu, "Utilities");
+    this->addPage(vaultMenu, "Vaults");
+    this->addPage(shopMenu, "Shops");
+
     return true;
 }
 
@@ -381,39 +382,34 @@ void ShortcutsLayer::onShortcut(CCObject* sender) {
     ShortcutsLayer::create()->show();
 }
 
+void ShortcutsLayer::addPage(CCNode* node, int index, std::string pageDesc) {
+    if (index < 0) {
+        m_pageList->addObject(node);
+    } else {
+        m_pageList->insertObject(node, index);
+    }
+}
+
+void ShortcutsLayer::addPage(CCNode* node, std::string pageDesc) {
+    ShortcutsLayer::addPage(node, -1, pageDesc);
+}
+
 void ShortcutsLayer::onChangePage(CCObject* sender) {
     m_currentPage += sender->getTag();
-    if (m_currentPage < 1) {
-        m_currentPage = m_maxPage;
-    } else if (m_currentPage > m_maxPage) {
-        m_currentPage = 1;
+    if (m_currentPage < 0) {
+        m_currentPage = m_maxPage - 1;
+    } else if (m_currentPage > m_maxPage - 1) {
+        m_currentPage = 0;
     }
     ShortcutsLayer::refreshPage();
 }
 
 void ShortcutsLayer::refreshPage() {
     std::string pageTitle;
-    switch(m_currentPage) {
-        case 1:
-            pageTitle = "Menus";
-            m_page1Layer->setVisible(true);
-            m_page2Layer->setVisible(false);
-            m_page3Layer->setVisible(false);
-            break;
-        case 2:
-            pageTitle = "Vaults";
-            m_page1Layer->setVisible(false);
-            m_page2Layer->setVisible(true);
-            m_page3Layer->setVisible(false);
-            break;
-        case 3:
-            pageTitle = "Shops";
-            m_page1Layer->setVisible(false);
-            m_page2Layer->setVisible(false);
-            m_page3Layer->setVisible(true);
-            break;
-    }
-    m_pageDesc->setString(fmt::format("Page {} / {}", m_currentPage, m_maxPage).c_str());
+
+    m_pageLayers->switchTo(m_currentPage);
+
+    m_pageDesc->setString(fmt::format("Page {} / {}", m_currentPage + 1, m_maxPage).c_str());
 }
 
 void ShortcutsLayer::onScene(CCObject* sender) {
