@@ -46,9 +46,8 @@ bool ShortcutsLayer::setup() {
         this,
         menu_selector(ShortcutsLayer::onModSettings)
     );
-    modSettingsBtn->setPosition(m_size - CCPoint{3, 3});
     modSettingsBtn->setID("mod-settings-button"_spr);
-    m_buttonMenu->addChild(modSettingsBtn);
+    m_buttonMenu->addChildAtPosition(modSettingsBtn, Anchor::TopRight, {-3.f, -3.f});
 
     m_pageDesc = CCLabelBMFont::create("Page Desc", "bigFont.fnt");
     m_pageDesc->setScale(0.5f);
