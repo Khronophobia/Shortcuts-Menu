@@ -378,10 +378,12 @@ void ShortcutsLayer::onShortcut(CCObject* sender) {
 }
 
 void ShortcutsLayer::addPage(CCNode* node, int index, std::string pageDesc) {
-    if (index < 0) {
+    if (index < 0 || index > m_pageList->count()) {
         m_pageList->addObject(node);
+        m_pageDescList.push_back(pageDesc);
     } else {
         m_pageList->insertObject(node, index);
+        m_pageDescList.insert(m_pageDescList.begin() + index, pageDesc);
     }
 }
 
@@ -400,11 +402,9 @@ void ShortcutsLayer::onChangePage(CCObject* sender) {
 }
 
 void ShortcutsLayer::refreshPage() {
-    std::string pageTitle;
-
     m_pageLayers->switchTo(m_currentPage);
 
-    m_pageDesc->setString(fmt::format("Page {} / {}", m_currentPage + 1, m_maxPage).c_str());
+    m_pageDesc->setString(m_pageDescList.at(m_currentPage).c_str());
 }
 
 void ShortcutsLayer::onScene(CCObject* sender) {
