@@ -51,12 +51,9 @@ bool ShortcutsLayer::setup() {
 
     m_pageDesc = CCLabelBMFont::create("Page Desc", "bigFont.fnt");
     m_pageDesc->setScale(0.5f);
-    m_pageDesc->setPosition(m_size / 2 - CCPoint{
-        0,
-        m_bgSprite->getContentHeight() / 2
-            - m_pageDesc->getContentHeight() / 2
-    });
-    m_mainLayer->addChild(m_pageDesc);
+    m_mainLayer->addChildAtPosition(
+        m_pageDesc, Anchor::Bottom, {0, m_pageDesc->getContentHeight() / 2}
+    );
 
     // Page Layers
     m_page1Layer = CCLayer::create();
