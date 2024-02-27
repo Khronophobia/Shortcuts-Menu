@@ -48,6 +48,7 @@ bool ShortcutsLayer::setup() {
         m_pageDesc, Anchor::Bottom, {0, m_pageDesc->getContentHeight() / 2}
     );
 
+    m_pageList = CCArray::create();
     if (!this->initPages()) return false;
     m_pageLayers = CCLayerMultiplex::createWithArray(m_pageList);
     m_pageLayers->ignoreAnchorPointForPosition(false);
