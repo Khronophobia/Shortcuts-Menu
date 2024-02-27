@@ -10,34 +10,29 @@ bool ShortcutsLayer::setup() {
     CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("SecretSheet.plist");
     this->setTitle("Shortcuts Menu", "bigFont.fnt");
     this->setID("ShortcutsLayer");
-    auto screenSize = CCDirector::sharedDirector()->getWinSize();
-    auto sizeDiff = screenSize / 2 - m_size / 2;
+
+    auto pageBtnMenu = CCMenu::create();
+    pageBtnMenu->ignoreAnchorPointForPosition(false);
+    m_mainLayer->addChildAtPosition(pageBtnMenu, Anchor::Center);
 
     auto prevPageSpr = CCSprite::createWithSpriteFrameName("GJ_arrow_01_001.png");
     auto prevPageBtn = CCMenuItemSpriteExtra::create(
         prevPageSpr, this, menu_selector(ShortcutsLayer::onChangePage)
     );
     prevPageBtn->setTag(-1);
-    prevPageBtn->setPosition(
-        -sizeDiff.width
-            + prevPageBtn->getContentWidth() / 2
-            + 4,
-        m_size.height / 2
-    );
     auto nextPageSpr = CCSprite::createWithSpriteFrameName("GJ_arrow_01_001.png");
     nextPageSpr->setFlipX(true);
     auto nextPageBtn = CCMenuItemSpriteExtra::create(
         nextPageSpr, this, menu_selector(ShortcutsLayer::onChangePage)
     );
     nextPageBtn->setTag(1);
-    nextPageBtn->setPosition(
-        m_size.width + sizeDiff.width
-            - nextPageBtn->getContentWidth() / 2
-            - 4,
-        m_size.height / 2
+
+    pageBtnMenu->addChildAtPosition(
+        prevPageBtn, Anchor::Left, {prevPageBtn->getContentWidth() / 2 + 4, 0}
     );
-    m_buttonMenu->addChild(prevPageBtn);
-    m_buttonMenu->addChild(nextPageBtn);
+    pageBtnMenu->addChildAtPosition(
+        nextPageBtn, Anchor::Right, {-nextPageBtn->getContentWidth() / 2 - 4, 0}
+    );
 
     auto modSettingsBtn = CCMenuItemSpriteExtra::create(
         CCSprite::createWithSpriteFrameName("GJ_optionsBtn02_001.png"),
