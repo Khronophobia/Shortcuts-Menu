@@ -16,8 +16,8 @@ protected:
 public:
     static ShortcutsLayer* create();
     void onShortcut(CCObject*);
-    void addPage(CCNode* node);
-    void addPageAtIndex(CCNode* node, int index);
+    void addPage(CCNode* node, int index, std::string pageDesc);
+    void addPage(CCNode* node, std::string pageDesc);
     void onChangePage(CCObject*);
     void onScene(CCObject*);
     void onRestart(CCObject*);

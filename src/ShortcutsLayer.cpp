@@ -363,9 +363,9 @@ bool ShortcutsLayer::initPages() {
 
     shopMenu->updateLayout();
 
-    this->addPage(utilsMenu);
-    this->addPage(vaultMenu);
-    this->addPage(shopMenu);
+    this->addPage(utilsMenu, "Utilities");
+    this->addPage(vaultMenu, "Vaults");
+    this->addPage(shopMenu, "Shops");
 
     return true;
 }
@@ -386,12 +386,16 @@ void ShortcutsLayer::onShortcut(CCObject* sender) {
     ShortcutsLayer::create()->show();
 }
 
-void ShortcutsLayer::addPage(CCNode* node) {
-    m_pageList->addObject(node);
+void ShortcutsLayer::addPage(CCNode* node, int index, std::string pageDesc) {
+    if (index < 0) {
+        m_pageList->addObject(node);
+    } else {
+        m_pageList->insertObject(node, index);
+    }
 }
 
-void ShortcutsLayer::addPageAtIndex(CCNode* node, int index) {
-    m_pageList->insertObject(node, index);
+void ShortcutsLayer::addPage(CCNode* node, std::string pageDesc) {
+    ShortcutsLayer::addPage(node, -1, pageDesc);
 }
 
 void ShortcutsLayer::onChangePage(CCObject* sender) {
