@@ -14,7 +14,7 @@ bool ShortcutsLayer::setup() {
     this->setID("ShortcutsLayer");
     m_closeBtn->setID("close-button"_spr);
     m_title->setID("title"_spr);
-    m_buttonMenu->setID("popup-menu"_spr)
+    m_buttonMenu->setID("popup-menu"_spr);
 
     auto pageBtnMenu = CCMenu::create();
     pageBtnMenu->ignoreAnchorPointForPosition(false);
