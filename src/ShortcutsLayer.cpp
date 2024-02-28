@@ -10,6 +10,7 @@ bool ShortcutsLayer::setup() {
     CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("SecretSheet.plist");
     this->setTitle("Shortcuts Menu", "bigFont.fnt");
     this->setID("ShortcutsLayer");
+    m_currentPage = 0;
 
     auto pageBtnMenu = CCMenu::create();
     pageBtnMenu->ignoreAnchorPointForPosition(false);
@@ -378,18 +379,9 @@ void ShortcutsLayer::onShortcut(CCObject* sender) {
     ShortcutsLayer::create()->show();
 }
 
-void ShortcutsLayer::addPage(CCNode* node, int index, std::string pageDesc) {
-    if (index < 0 || index > m_pageList->count()) {
-        m_pageList->addObject(node);
-        m_pageDescList.push_back(pageDesc);
-    } else {
-        m_pageList->insertObject(node, index);
-        m_pageDescList.insert(m_pageDescList.begin() + index, pageDesc);
-    }
-}
-
 void ShortcutsLayer::addPage(CCNode* node, std::string pageDesc) {
-    ShortcutsLayer::addPage(node, -1, pageDesc);
+    m_pageList->addObject(node);
+    m_pageDescList.push_back(pageDesc);
 }
 
 void ShortcutsLayer::onChangePage(CCObject* sender) {
