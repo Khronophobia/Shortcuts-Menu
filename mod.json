@@ -25,17 +25,16 @@
 		}
 	],
 	"settings": {
-		"hide-spoilers": {
-			"name": "Hide Spoilers",
-			"description": "Hide shortcuts for sections of the game you haven't unlocked. Disabling this does <cr>NOT</c> make them accessible.",
-			"type": "bool",
-			"default": true
-		},
-		"spoilers-silhouette": {
-			"name": "Show Spoilers as Silhouettes",
-			"description": "Only applicable if Hide Spoilers is enabled. Show locked shortcuts as silhouettes instead of completely hiding them.",
-			"type": "bool",
-			"default": false
+		"show-spoilers": {
+			"name": "Show Spoilers",
+			"type": "int",
+			"default": 2,
+			"min": 0,
+			"max": 2,
+			"control": {
+				"slider": false
+			},
+			"description": "Whether to show shortcuts you haven't unlocked yet. The choice are as follows:\n0. Show\n1. Show as Silhouette\n2. Hide\n(These are temporary until I figure out custom settings)"
 		},
 		"enable-menulayer": {
 			"name": "Enable in MenuLayer",
