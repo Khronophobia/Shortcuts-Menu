@@ -13,12 +13,15 @@ protected:
     CCLabelBMFont* m_pageDesc;
     CCLayerMultiplex* m_pageLayers;
     CCArray* m_pageList;
+    CCMenu* m_navigationMenu;
+    CCArray* m_navigateButtonList;
     std::deque<std::string> m_pageDescList;
 public:
     static ShortcutsLayer* create();
     void onShortcut(CCObject*);
     void addPage(CCNode* node, std::string pageDesc = "");
     void onChangePage(CCObject*);
+    void onNavigate(CCObject*);
     void onScene(CCObject*);
     void onRestart(CCObject*);
     void onQuit(CCObject*);
