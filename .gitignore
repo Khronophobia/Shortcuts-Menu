@@ -57,3 +57,4 @@ build-*/
 *.psd
 *.svg
 reference/
+ignore/

@@ -219,7 +219,13 @@ bool ShortcutsLayer::pagesSetup() {
         AxisLayoutOptions::create()->setBreakLine(true)  
     );
 
-    auto treasureRoomSpr = CCSprite::createWithSpriteFrameName("secretDoorBtn_open_001.png");
+    auto treasureRoomUnlocked = GameManager::sharedState()->getUGV("5");
+    CCSprite* treasureRoomSpr;
+    if (GameManager::sharedState()->getUGV("5")) {
+        treasureRoomSpr = CCSprite::createWithSpriteFrameName("secretDoorBtn_open_001.png");
+    } else {
+        treasureRoomSpr = CCSprite::createWithSpriteFrameName("secretDoorBtn_closed_001.png");
+    }
     auto treasureRoomBtn = CCMenuItemSpriteExtra::create(
         treasureRoomSpr,
         this,
