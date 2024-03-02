@@ -89,7 +89,7 @@ bool ShortcutsLayer::pagesSetup() {
     // Utilities Page
     auto utilsMenu = CCMenu::create();
     utilsMenu->ignoreAnchorPointForPosition(false);
-    utilsMenu->setContentSize(m_size - CCSize{60.f, 60.f});
+    utilsMenu->setContentSize(m_size - CCSize{40.f, 60.f});
     utilsMenu->setLayoutOptions(
         AnchorLayoutOptions::create()
             ->setAnchor(Anchor::Center)
@@ -163,6 +163,82 @@ bool ShortcutsLayer::pagesSetup() {
     utilsMenu->addChild(geodeBtn);
     utilsMenu->addChild(settingsBtn);
     utilsMenu->updateLayout();
+
+    // Online Levels Page
+    auto onlineMenu = CCMenu::create();
+    onlineMenu->setContentSize(m_size - CCSize{40.f, 60.f});
+    onlineMenu->ignoreAnchorPointForPosition(false);
+    onlineMenu->setLayoutOptions(
+        AnchorLayoutOptions::create()
+            ->setAnchor(Anchor::Center)
+            ->setOffset({0.f, -4.f})
+    );
+    onlineMenu->setLayout(
+        AxisLayout::create()
+            ->setGrowCrossAxis(true)
+            ->setCrossAxisOverflow(false)
+    );
+    onlineMenu->setID("online-menu"_spr);
+
+    auto createdLvlBtn = CCMenuItemSpriteExtra::create(
+        CCSprite::createWithSpriteFrameName("GJ_createBtn_001.png"),
+        this,
+        menu_selector(CreatorLayer::onMyLevels)
+    );
+    auto savedLvlBtn = CCMenuItemSpriteExtra::create(
+        CCSprite::createWithSpriteFrameName("GJ_savedBtn_001.png"),
+        this,
+        menu_selector(CreatorLayer::onSavedLevels)
+    );
+    auto questBtn = CCMenuItemSpriteExtra::create(
+        CCSprite::createWithSpriteFrameName("GJ_challengeBtn_001.png"),
+        this,
+        menu_selector(CreatorLayer::onChallenge)
+    );
+    auto dailyBtn = CCMenuItemSpriteExtra::create(
+        CCSprite::createWithSpriteFrameName("GJ_dailyBtn_001.png"),
+        this,
+        menu_selector(CreatorLayer::onDailyLevel)
+    );
+    auto weeklyBtn = CCMenuItemSpriteExtra::create(
+        CCSprite::createWithSpriteFrameName("GJ_weeklyBtn_001.png"),
+        this,
+        menu_selector(CreatorLayer::onWeeklyLevel)
+    );
+    auto featuredLvlBtn = CCMenuItemSpriteExtra::create(
+        CCSprite::createWithSpriteFrameName("GJ_featuredBtn_001.png"),
+        this,
+        menu_selector(CreatorLayer::onOnlineLevels)
+    );
+    auto searchLvlBtn = CCMenuItemSpriteExtra::create(
+        CCSprite::createWithSpriteFrameName("GJ_searchBtn_001.png"),
+        this,
+        menu_selector(CreatorLayer::onOnlineLevels)
+    );
+    searchLvlBtn->setLayoutOptions(
+        AxisLayoutOptions::create()->setBreakLine(true)  
+    );
+
+    auto treasureRoomSpr = CCSprite::createWithSpriteFrameName("secretDoorBtn_open_001.png");
+    auto treasureRoomBtn = CCMenuItemSpriteExtra::create(
+        treasureRoomSpr,
+        this,
+        menu_selector(CreatorLayer::onTreasureRoom)
+    );
+    treasureRoomBtn->setLayoutOptions(
+        AxisLayoutOptions::create()->setMinScale(1.f)
+    );
+
+    onlineMenu->addChild(createdLvlBtn);
+    onlineMenu->addChild(savedLvlBtn);
+    onlineMenu->addChild(questBtn);
+    onlineMenu->addChild(dailyBtn);
+    onlineMenu->addChild(weeklyBtn);
+    onlineMenu->addChild(featuredLvlBtn);
+    onlineMenu->addChild(searchLvlBtn);
+    // Line break
+    onlineMenu->addChild(treasureRoomBtn);
+    onlineMenu->updateLayout();
 
     // Vaults Page
     auto vaultMenu = CCMenu::create();
@@ -265,7 +341,7 @@ bool ShortcutsLayer::pagesSetup() {
     */
     auto shopMenu = CCMenu::create();
     shopMenu->ignoreAnchorPointForPosition(false);
-    shopMenu->setContentSize(m_size - CCSize{60.f, 60.f});
+    shopMenu->setContentSize(m_size - CCSize{40.f, 60.f});
     shopMenu->setLayoutOptions(
         AnchorLayoutOptions::create()
             ->setAnchor(Anchor::Center)
@@ -381,6 +457,7 @@ bool ShortcutsLayer::pagesSetup() {
     shopMenu->updateLayout();
 
     this->addPage(utilsMenu, "Utilities");
+    this->addPage(onlineMenu, "Online Levels");
     this->addPage(vaultMenu, "Vaults");
     this->addPage(shopMenu, "Shops");
 
@@ -426,6 +503,7 @@ void ShortcutsLayer::onNavigate(CCObject* sender) {
 void ShortcutsLayer::refreshPage() {
     m_pageLayers->switchTo(m_currentPage);
     m_pageDesc->setString(m_pageDescList.at(m_currentPage).c_str());
+    m_pageLayers->updateLayout();
 
     for (int page = 0; page < m_maxPage; page++) {
         auto btn = static_cast<CCMenuItemSpriteExtra*>(m_navigateButtonList->objectAtIndex(page));
