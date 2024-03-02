@@ -8,7 +8,7 @@ protected:
     int m_currentPage;
     int m_maxPage;
     bool setup();
-    bool initPages();
+    bool pagesSetup();
     void refreshPage();
     CCLabelBMFont* m_pageDesc;
     CCLayerMultiplex* m_pageLayers;

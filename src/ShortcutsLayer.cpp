@@ -55,7 +55,7 @@ bool ShortcutsLayer::setup() {
     );
 
     m_pageList = CCArray::create();
-    if (!this->initPages()) return false;
+    if (!this->pagesSetup()) return false;
     m_pageLayers = CCLayerMultiplex::createWithArray(m_pageList);
     m_pageLayers->ignoreAnchorPointForPosition(false);
     m_pageLayers->setLayout(AnchorLayout::create());
@@ -85,7 +85,7 @@ bool ShortcutsLayer::setup() {
     return true;
 }
 
-bool ShortcutsLayer::initPages() {
+bool ShortcutsLayer::pagesSetup() {
     // Page 1 (Utilities)
     auto utilsMenu = CCMenu::create();
     utilsMenu->ignoreAnchorPointForPosition(false);
