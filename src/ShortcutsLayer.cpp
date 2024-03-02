@@ -439,15 +439,13 @@ void ShortcutsLayer::refreshPage() {
 
 void ShortcutsLayer::onScene(CCObject* sender) {
     auto obj = static_cast<CCNode*>(sender)->getUserObject();
-    auto scene = static_cast<CCScene*>(obj);
-    if (scene == nullptr) {
-        log::info("Scene not set.");
+    if (auto scene = typeinfo_cast<CCScene*>(obj)) {
+        CCDirector::sharedDirector()->replaceScene(
+            CCTransitionFade::create(0.5f, scene)
+        );
         return;
     }
-
-    CCDirector::sharedDirector()->replaceScene(
-        CCTransitionFade::create(0.5f, scene)
-    );
+    log::error("Not a valid scene");
 }
 
 void ShortcutsLayer::onRestart(CCObject* sender) {
