@@ -86,7 +86,7 @@ bool ShortcutsLayer::setup() {
 }
 
 bool ShortcutsLayer::pagesSetup() {
-    // Page 1 (Utilities)
+    // Utilities Page
     auto utilsMenu = CCMenu::create();
     utilsMenu->ignoreAnchorPointForPosition(false);
     utilsMenu->setContentSize(m_size - CCSize{60.f, 60.f});
@@ -164,7 +164,7 @@ bool ShortcutsLayer::pagesSetup() {
     utilsMenu->addChild(settingsBtn);
     utilsMenu->updateLayout();
 
-    // Page 2 (Vault Shortcuts)
+    // Vaults Page
     auto vaultMenu = CCMenu::create();
     vaultMenu->ignoreAnchorPointForPosition(false);
     vaultMenu->setContentSize({
@@ -255,7 +255,7 @@ bool ShortcutsLayer::pagesSetup() {
 
     vaultMenu->updateLayout();
 
-    // Page 3 (Shop Shortcuts)
+    // Shops Page
     /*
         Tags for SecretRewardsLayer::onShop
         1 = Scratch
