@@ -208,7 +208,7 @@ bool ShortcutsLayer::pagesSetup() {
     auto featuredLvlBtn = CCMenuItemSpriteExtra::create(
         CCSprite::createWithSpriteFrameName("GJ_featuredBtn_001.png"),
         this,
-        menu_selector(CreatorLayer::onOnlineLevels)
+        menu_selector(CreatorLayer::onFeaturedLevels)
     );
     auto searchLvlBtn = CCMenuItemSpriteExtra::create(
         CCSprite::createWithSpriteFrameName("GJ_searchBtn_001.png"),
