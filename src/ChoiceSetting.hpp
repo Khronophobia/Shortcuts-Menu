@@ -1,5 +1,6 @@
 #pragma once
 #include <Geode/Geode.hpp>
+#include <Geode/loader/SettingNode.hpp>
 
 using namespace geode::prelude;
 
