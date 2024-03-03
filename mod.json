@@ -38,7 +38,13 @@
 		},
 		"show-spoilers-new": {
 			"name": "Show Spoilers",
-			"type": "custom"
+			"type": "custom",
+			"description": "Whether to show shortcuts you haven't unlocked yet. Setting this to Show does <cr>NOT</c> make them accessible.",
+			"choices": [
+				"A",
+				"B",
+				"C"
+			]
 		},
 		"enable-menulayer": {
 			"name": "Enable in MenuLayer",
