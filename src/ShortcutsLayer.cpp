@@ -262,6 +262,8 @@ bool ShortcutsLayer::pagesSetup() {
 
     // Vault
     if (
+        // Check if collected user coins is less than 10
+        // 10 user coins are needed to unlock the Vault
         (GameStatsManager::sharedState()->getStat("12") < 10)
         && Mod::get()->getSettingValue<int64_t>("show-spoilers") > 0
     ) {
@@ -281,6 +283,8 @@ bool ShortcutsLayer::pagesSetup() {
     }
     // Vault of Secrets
     if (
+        // Check if total diamonds is less than 50
+        // 50 diamonds are needed to unlock the Vault of Secrets
         (GameStatsManager::sharedState()->getStat("13") < 50)
         && Mod::get()->getSettingValue<int64_t>("show-spoilers") > 0
     ) {
