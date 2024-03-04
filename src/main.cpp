@@ -66,9 +66,9 @@ class $modify(LevelBrowserLayer) {
 			auto shortcutButton = ShortcutsLayer::addShortcutButton(
 				this, 1.f, CircleBaseColor::Green, CircleBaseSize::Small
 			);
-			shortcutButton->setZOrder(1);
 			auto menu = this->getChildByID("back-menu");
-			menu->addChild(shortcutButton);
+			auto backButton = menu->getChildByID("back-button");
+			menu->insertAfter(shortcutButton, backButton);
 			menu->updateLayout();
 		}
 
@@ -106,9 +106,9 @@ class $modify(LevelInfoLayer) {
 			auto shortcutButton = ShortcutsLayer::addShortcutButton(
 				this, 1.f, CircleBaseColor::Green, CircleBaseSize::Small
 			);
-			shortcutButton->setZOrder(1);
 			auto menu = this->getChildByID("back-menu");
-			menu->addChild(shortcutButton);
+			auto backButton = menu->getChildByID("back-button");
+			menu->insertAfter(shortcutButton, backButton);
 			menu->updateLayout();
 		}
 
