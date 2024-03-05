@@ -13,19 +13,32 @@ public:
     bool load(matjson::Value const& json) override;
     bool save(matjson::Value& json) const override;
     SettingNode* createNode(float width) override;
+    void setChoice(int choice);
+    int getChoice() const;
 };
 
 class ChoiceSettingNode : public SettingNode {
 protected:
-    std::vector<std::string> m_choices;
+    std::vector<std::string> const m_choiceList = {
+        "Show",
+        "As Silhouette",
+        "Hide"
+    };
     std::string m_name;
     std::string m_description;
+    int m_currentChoice;
+    int const m_defaultChoice = 2;
+    CCMenu* m_dropdownList;
+    CCLabelBMFont* m_dropdownLabel;
     bool init(ChoiceSettingValue* value, float width);
+    void onInfo(CCObject*);
+    void onDropdown(CCObject*);
+    void onClickChoice(CCObject*);
+    void clearDropdown();
 public:
     void commit() override;
     bool hasUncommittedChanges() override;
     bool hasNonDefaultValue() override;
     void resetToDefault() override;
-    void onInfo(CCObject*);
     static ChoiceSettingNode* create(ChoiceSettingValue* value, float width);
 };
