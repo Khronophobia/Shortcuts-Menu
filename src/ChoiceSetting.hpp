@@ -35,6 +35,7 @@ protected:
     void onDropdown(CCObject*);
     void onClickChoice(CCObject*);
     void clearDropdown();
+    void dispatchChanged();
 public:
     void commit() override;
     bool hasUncommittedChanges() override;

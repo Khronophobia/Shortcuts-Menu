@@ -168,7 +168,10 @@ bool ChoiceSettingNode::hasNonDefaultValue() {
     return m_currentChoice != m_defaultChoice;
 }
 
-void ChoiceSettingNode::resetToDefault() {}
+void ChoiceSettingNode::resetToDefault() {
+    m_currentChoice = m_defaultChoice;
+    m_dropdownLabel->setString(m_choiceList.at(m_currentChoice).c_str());
+}
 
 void ChoiceSettingNode::onInfo(CCObject* sender) {
     FLAlertLayer::create(
@@ -176,6 +179,11 @@ void ChoiceSettingNode::onInfo(CCObject* sender) {
         m_description.c_str(),
         "OK"
     )->show();
+}
+
+void ChoiceSettingNode::dispatchChanged() {
+    SettingNode::dispatchChanged();
+    log::info("Dispatch cahnged");
 }
 
 ChoiceSettingNode* ChoiceSettingNode::create(ChoiceSettingValue* value, float width) {
