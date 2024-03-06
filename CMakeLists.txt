@@ -8,6 +8,7 @@ project(ShortcutsMenu VERSION 1.0.0)
 
 file(GLOB SOURCES
     src/*.cpp
+    src/Settings/*.cpp
 )
 
 add_library(${PROJECT_NAME} SHARED ${SOURCES})

@@ -6,6 +6,7 @@
 #include <Geode/modify/LevelSearchLayer.hpp>
 #include <Geode/modify/LevelInfoLayer.hpp>
 #include "ShortcutsLayer.hpp"
+#include "Settings/ChoiceSetting.hpp"
 
 using namespace geode::prelude;
 
@@ -115,3 +116,7 @@ class $modify(LevelInfoLayer) {
 		return true;
 	}
 };
+
+$on_mod(Loaded) {
+    Mod::get()->addCustomSetting<ChoiceSettingValue>("show-spoilers-new", 2);
+}
