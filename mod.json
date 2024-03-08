@@ -27,14 +27,19 @@
 	"settings": {
 		"show-spoilers": {
 			"name": "Show Spoilers",
-			"type": "int",
+			"type": "custom",
 			"default": 2,
 			"min": 0,
 			"max": 2,
 			"control": {
 				"slider": false
 			},
-			"description": "Whether to show shortcuts you haven't unlocked yet. The choice are as follows:\n0. Show\n1. Show as Silhouette\n2. Hide\n(These are temporary until I figure out custom settings)"
+			"description": "Whether to show shortcuts you haven't unlocked yet. Setting this to <cy>Show</c> does <cr>NOT</c> make them accessible.",
+			"choices": [
+				"Show",
+				"As Silhouette",
+				"Hide"
+			]
 		},
 		"enable-menulayer": {
 			"name": "Enable in MenuLayer",

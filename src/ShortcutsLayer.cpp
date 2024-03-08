@@ -1,6 +1,7 @@
 #include <Geode/Geode.hpp>
 #include <Geode/ui/GeodeUI.hpp>
 #include "ShortcutsLayer.hpp"
+#include "Settings/ChoiceSetting.hpp"
 
 using namespace geode::prelude;
 
@@ -86,6 +87,10 @@ bool ShortcutsLayer::setup() {
 }
 
 bool ShortcutsLayer::pagesSetup() {
+    auto showSpoilersValue = static_cast<ChoiceSettingValue*>(
+        Mod::get()->getSetting("show-spoilers")
+    )->getChoice();
+
     // Utilities Page
     auto utilsMenu = CCMenu::create();
     utilsMenu->ignoreAnchorPointForPosition(false);
@@ -265,10 +270,10 @@ bool ShortcutsLayer::pagesSetup() {
         // Check if collected user coins is less than 10
         // 10 user coins are needed to unlock the Vault
         (GameStatsManager::sharedState()->getStat("12") < 10)
-        && Mod::get()->getSettingValue<int64_t>("show-spoilers") > 0
+        &&  showSpoilersValue != 0
     ) {
         log::info("Hide Spoilers enabled: Hiding Vault");
-        if (Mod::get()->getSettingValue<int64_t>("show-spoilers") == 1) {
+        if (showSpoilersValue == 1) {
             auto vault1Spr = CCSprite::createWithSpriteFrameName("vaultLocked.png"_spr);
             vaultMenu->addChild(vault1Spr);
         }
@@ -286,10 +291,10 @@ bool ShortcutsLayer::pagesSetup() {
         // Check if total diamonds is less than 50
         // 50 diamonds are needed to unlock the Vault of Secrets
         (GameStatsManager::sharedState()->getStat("13") < 50)
-        && Mod::get()->getSettingValue<int64_t>("show-spoilers") > 0
+        &&  showSpoilersValue != 0
     ) {
         log::info("Hide Spoilers enabled: Hiding Vault of Secrets");
-        if (Mod::get()->getSettingValue<int64_t>("show-spoilers") == 1) {
+        if (showSpoilersValue == 1) {
             auto vault2Spr = CCSprite::createWithSpriteFrameName("vaultLocked.png"_spr);
             vaultMenu->addChild(vault2Spr);
         }
@@ -310,10 +315,10 @@ bool ShortcutsLayer::pagesSetup() {
     // Chamber of Time
     if (
         !GameManager::sharedState()->getUGV("8")
-        && Mod::get()->getSettingValue<int64_t>("show-spoilers") > 0
+        &&  showSpoilersValue != 0
     ) {
         log::info("Hide Spoilers enabled: Hiding Chamber of Time");
-        if (Mod::get()->getSettingValue<int64_t>("show-spoilers") == 1) {
+        if (showSpoilersValue == 1) {
             auto vault3Spr = CCSprite::createWithSpriteFrameName("vaultLocked.png"_spr);
             vaultMenu->addChild(vault3Spr);
         }
@@ -381,10 +386,10 @@ bool ShortcutsLayer::pagesSetup() {
     // Scratch
     if (
         !GameManager::sharedState()->getUGV("11") 
-        && Mod::get()->getSettingValue<int64_t>("show-spoilers") > 0
+        &&  showSpoilersValue != 0
     ) {
         log::info("Hide Spoilers enabled: Hiding Scratch's shop");
-        if (Mod::get()->getSettingValue<int64_t>("show-spoilers") == 1) {
+        if (showSpoilersValue == 1) {
             auto secretShopSpr = CCSprite::createWithSpriteFrameName("secretShopButtonLocked.png"_spr);
             shopMenu->addChild(secretShopSpr);
         }
@@ -402,10 +407,10 @@ bool ShortcutsLayer::pagesSetup() {
     // Community
     if (
         !GameManager::sharedState()->getUGV("20")
-        && Mod::get()->getSettingValue<int64_t>("show-spoilers") > 0
+        &&  showSpoilersValue != 0
     ) {
         log::info("Hide Spoilers enabled: Hiding Community shop");
-        if (Mod::get()->getSettingValue<int64_t>("show-spoilers") == 1) {
+        if (showSpoilersValue == 1) {
             auto secretShop2Spr = CCSprite::createWithSpriteFrameName("secretShopButtonLocked.png"_spr);
             shopMenu->addChild(secretShop2Spr);
         }
@@ -423,10 +428,10 @@ bool ShortcutsLayer::pagesSetup() {
     // Mechanic
     if (
         !GameManager::sharedState()->getUGV("35")
-        && Mod::get()->getSettingValue<int64_t>("show-spoilers") > 0
+        &&  showSpoilersValue != 0
     ) {
         log::info("Hide Spoilers enabled: Hiding Mechanic's shop");
-        if (Mod::get()->getSettingValue<int64_t>("show-spoilers") == 1) {
+        if (showSpoilersValue == 1) {
             auto secretShop3Spr = CCSprite::createWithSpriteFrameName("secretShopButtonLocked.png"_spr);
             shopMenu->addChild(secretShop3Spr);
         }
@@ -443,11 +448,11 @@ bool ShortcutsLayer::pagesSetup() {
     }
     // Diamond
     if (
-        !GameManager::sharedState()->getUGV("34") &&
-        Mod::get()->getSettingValue<int64_t>("show-spoilers") > 0
+        !GameManager::sharedState()->getUGV("34")
+        &&  showSpoilersValue != 0
     ) {
         log::info("Hide Spoilers enabled: Hiding Diamond shop");
-        if (Mod::get()->getSettingValue<int64_t>("show-spoilers") == 1) {
+        if (showSpoilersValue == 1) {
             auto secretShop4Spr = CCSprite::createWithSpriteFrameName("secretShopButtonLocked.png"_spr);
             shopMenu->addChild(secretShop4Spr);
         }
