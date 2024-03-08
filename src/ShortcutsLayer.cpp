@@ -473,7 +473,7 @@ bool ShortcutsLayer::pagesSetup() {
     shopMenu->updateLayout();
 
     this->addPage(utilsMenu, "Utilities");
-    this->addPage(onlineMenu, "Online Levels");
+    this->addPage(onlineMenu, "Online Page");
     this->addPage(vaultMenu, "Vaults");
     this->addPage(shopMenu, "Shops");
 
