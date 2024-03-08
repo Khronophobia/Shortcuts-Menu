@@ -6,6 +6,8 @@
 using namespace geode::prelude;
 
 bool ShortcutsLayer::setup() {
+    m_noElasticity = GameManager::sharedState()->getGameVariable("0168"); // Fast Menu option
+
     // This spritesheet isn't loaded by default. Not sure if there's a better way to handle this.
     // Also, idk if I should deload this manually or if it'll deload automatically.
     CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("SecretSheet.plist");
