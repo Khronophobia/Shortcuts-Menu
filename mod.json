@@ -38,7 +38,13 @@
 		},
 		"show-spoilers-new": {
 			"name": "Show Spoilers",
-			"type": "custom"
+			"type": "custom",
+			"description": "Whether to show shortcuts you haven't unlocked yet. Setting this to <cy>Show</c> does <cr>NOT</c> make them accessible.",
+			"choices": [
+				"Show",
+				"As Silhouette",
+				"Hide"
+			]
 		},
 		"enable-menulayer": {
 			"name": "Enable in MenuLayer",
