@@ -119,10 +119,11 @@ bool ChoiceSettingNode::init(ChoiceSettingValue* value, float width) {
     });
     m_dropdownBtn->addChild(dropdownArrow);
 
-    m_dropdownLabelWidth =
+    m_dropdownChoiceWidth =
         m_dropdownBtn->getScaledContentSize().width
-          - dropdownArrow->getContentWidth()
-          - 9.f;
+          - 6.f;
+    m_dropdownLabelWidth =
+        m_dropdownChoiceWidth - dropdownArrow->getContentWidth() - 3.f;
     m_dropdownLabel = CCLabelBMFont::create(
         m_choiceList.at(m_currentChoice).as_string().c_str(), // I hope there's a better way than this
         "bigFont.fnt"
@@ -132,7 +133,7 @@ bool ChoiceSettingNode::init(ChoiceSettingValue* value, float width) {
         3.f,
         m_dropdownBtn->getScaledContentSize().height / 2
     );
-    m_dropdownLabel->limitLabelWidth(m_dropdownLabelWidth, 0.5f, 0.1f);
+    m_dropdownLabel->limitLabelWidth(m_dropdownLabelWidth, m_dropdownLabelSize, 0.1f);
     m_dropdownBtn->addChild(m_dropdownLabel);
 
     m_dropdownMenu = CCMenu::create();
@@ -175,7 +176,7 @@ bool ChoiceSettingNode::init(ChoiceSettingValue* value, float width) {
             3.f,
             m_dropdownBtn->getScaledContentSize().height / 2
         );
-        choiceLabel->limitLabelWidth(m_dropdownLabelWidth, 0.5f, 0.1f);
+        choiceLabel->limitLabelWidth(m_dropdownChoiceWidth, m_dropdownLabelSize, 0.1f);
         choiceBtn->addChild(choiceLabel);
         m_dropdownMenu->addChild(choiceBtn);
     }
@@ -235,7 +236,7 @@ void ChoiceSettingNode::onSelectChoice(CCObject* sender) {
 void ChoiceSettingNode::selectChoice(int choice) {
     m_currentChoice = choice;
     m_dropdownLabel->setString(m_choiceList.at(m_currentChoice).as_string().c_str());
-    m_dropdownLabel->limitLabelWidth(m_dropdownLabelWidth, 0.5f, 0.1f);
+    m_dropdownLabel->limitLabelWidth(m_dropdownLabelWidth, m_dropdownLabelSize, 0.1f);
 }
 
 void ChoiceSettingNode::clearDropdown() {
