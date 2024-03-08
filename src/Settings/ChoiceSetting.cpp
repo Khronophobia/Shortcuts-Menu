@@ -97,16 +97,16 @@ bool ChoiceSettingNode::init(ChoiceSettingValue* value, float width) {
     m_resetBtn->setVisible(ChoiceSettingNode::hasNonDefaultValue());
     menu->addChild(m_resetBtn);
 
-    m_dropdownBg = CCScale9Sprite::create("square02_small.png");
-    m_dropdownBg->setContentSize(m_dropdownSize);
-    m_dropdownBg->setScale(0.3f);
-    m_dropdownBg->setOpacity(127);
+    m_dropdownBtnBg = CCScale9Sprite::create("square02_small.png");
+    m_dropdownBtnBg->setContentSize(m_dropdownSize);
+    m_dropdownBtnBg->setScale(0.3f);
+    m_dropdownBtnBg->setOpacity(127);
     m_dropdownBtn = CCMenuItemSpriteExtra::create(
-        m_dropdownBg, this, menu_selector(ChoiceSettingNode::onDropdown)
+        m_dropdownBtnBg, this, menu_selector(ChoiceSettingNode::onDropdown)
     );
     m_dropdownBtn->setAnchorPoint({1.f, 0.5f});
-    m_dropdownBg->setAnchorPoint({0.5f, 1.f});
-    m_dropdownBg->setPositionY(m_dropdownSize.height * 0.3f);
+    m_dropdownBtnBg->setAnchorPoint({0.5f, 1.f});
+    m_dropdownBtnBg->setPositionY(m_dropdownSize.height * 0.3f);
     // Don't want the button to scale when holding, and setSizeMult didn't do it
     m_dropdownBtn->useAnimationType(MenuAnimationType::Move);
     menu->addChild(m_dropdownBtn);
@@ -148,14 +148,27 @@ bool ChoiceSettingNode::init(ChoiceSettingValue* value, float width) {
     m_dropdownMenu->setTouchPriority(-5006);
     this->addChild(m_dropdownMenu);
 
+    m_dropdownMenuBg = CCScale9Sprite::create("square02_001.png");
+    m_dropdownMenuBg->setScale(0.3f);
+    m_dropdownMenuBg->setAnchorPoint({1.f, 1.f});
+    m_dropdownMenuBg->setContentSize({
+        m_dropdownSize.width,
+        m_dropdownSize.height * m_choiceList.size()
+    });
+    m_dropdownMenuBg->setOpacity(95);
+    m_dropdownMenuBg->setZOrder(-1);
+    m_dropdownMenuBg->setPosition(m_dropdownMenu->getPosition());
+    m_dropdownMenuBg->setVisible(false);
+    this->addChild(m_dropdownMenuBg);
+
     for (int i = 0; i < m_choiceList.size(); i++) {
         auto choiceBg = CCScale9Sprite::create("square02_001.png");
         choiceBg->setScale(0.3f);
         choiceBg->setContentSize(m_dropdownSize);
         if (i % 2 == 0) {
-            choiceBg->setOpacity(63);
-        } else {
             choiceBg->setOpacity(0);
+        } else {
+            choiceBg->setOpacity(95);
         }
         auto choiceBtn = CCMenuItemSpriteExtra::create(
             choiceBg, this, menu_selector(ChoiceSettingNode::onSelectChoice)
@@ -212,7 +225,7 @@ void ChoiceSettingNode::onDropdown(CCObject* sender) {
         ChoiceSettingNode::clearDropdown();
         return;
     }
-    m_dropdownBg->setContentSize({
+    m_dropdownBtnBg->setContentSize({
         m_dropdownSize.width,
         m_dropdownSize.height * (m_choiceList.size() + 1)
     });
@@ -224,6 +237,7 @@ void ChoiceSettingNode::onDropdown(CCObject* sender) {
         else choiceLabel->setColor({255, 255, 255});
     }
     m_dropdownMenu->setVisible(true);
+    m_dropdownMenuBg->setVisible(true);
     this->setZOrder(1);
 }
 
@@ -240,8 +254,9 @@ void ChoiceSettingNode::selectChoice(int choice) {
 }
 
 void ChoiceSettingNode::clearDropdown() {
-    m_dropdownBg->setContentSize(m_dropdownSize);
+    m_dropdownBtnBg->setContentSize(m_dropdownSize);
     m_dropdownMenu->setVisible(false);
+    m_dropdownMenuBg->setVisible(false);
     this->setZOrder(0);
 }
 

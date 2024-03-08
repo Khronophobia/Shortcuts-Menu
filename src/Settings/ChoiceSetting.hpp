@@ -24,7 +24,7 @@ protected:
     CCLabelBMFont* m_nameLabel;
     // Was worried it might be hard to click on phones
     #ifdef GEODE_IS_ANDROID
-    CCSize const m_dropdownSize = {400.f, 80.f};
+    CCSize const m_dropdownSize = {400.f, 90.f};
     float const m_dropdownLabelSize = 0.65f;
     #else
     CCSize const m_dropdownSize = {400.f, 60.f};
@@ -34,7 +34,8 @@ protected:
     matjson::Array m_choiceList;
     CCMenuItemSpriteExtra* m_resetBtn;
     std::optional<CustomSetting> m_settingKeys;
-    CCScale9Sprite* m_dropdownBg;
+    CCScale9Sprite* m_dropdownBtnBg;
+    CCScale9Sprite* m_dropdownMenuBg;
     CCScale9Sprite* m_thing;
     CCMenuItemSpriteExtra* m_dropdownBtn;
     CCLabelBMFont* m_dropdownLabel;
