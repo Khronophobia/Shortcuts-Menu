@@ -281,12 +281,12 @@ void ChoiceSettingNode::resetToDefault() {
 void ChoiceSettingNode::dispatchChanged() {
     SettingNode::dispatchChanged();
     m_resetBtn->setVisible(ChoiceSettingNode::hasNonDefaultValue());
-    if (ChoiceSettingNode::hasUncommittedChanges()) m_nameLabel->setColor({0, 255, 0});
-    else m_nameLabel->setColor({255, 255, 255});
+    if (ChoiceSettingNode::hasUncommittedChanges()) m_nameLabel->setColor(cc3x(0x1d0));
+    else m_nameLabel->setColor(cc3x(0xfff));
 }
 
 void ChoiceSettingNode::dispatchCommitted() {
     SettingNode::dispatchCommitted();
-    m_nameLabel->setColor({255, 255, 255});
+    m_nameLabel->setColor(cc3x(0xfff));
     ChoiceSettingNode::clearDropdown();
 }
