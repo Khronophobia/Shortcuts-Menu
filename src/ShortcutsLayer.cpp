@@ -88,7 +88,7 @@ bool ShortcutsLayer::setup() {
 
 bool ShortcutsLayer::pagesSetup() {
     auto showSpoilersValue = static_cast<ChoiceSettingValue*>(
-        Mod::get()->getSetting("show-spoilers-new")
+        Mod::get()->getSetting("show-spoilers")
     )->getChoice();
 
     // Utilities Page

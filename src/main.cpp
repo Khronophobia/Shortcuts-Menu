@@ -118,5 +118,5 @@ class $modify(LevelInfoLayer) {
 };
 
 $on_mod(Loaded) {
-    Mod::get()->addCustomSetting<ChoiceSettingValue>("show-spoilers-new", 2);
+    Mod::get()->addCustomSetting<ChoiceSettingValue>("show-spoilers", 2);
 }
