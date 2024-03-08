@@ -145,7 +145,7 @@ bool ChoiceSettingNode::init(ChoiceSettingValue* value, float width) {
         m_dropdownBtn->getScaledContentSize().height / 2
     });
     m_dropdownMenu->setVisible(false);
-    m_dropdownMenu->setTouchPriority(-5006);
+    m_dropdownMenu->setTouchPriority(CCTouchDispatcher::get()->getForcePrio() - 1);
     this->addChild(m_dropdownMenu);
 
     m_dropdownMenuBg = CCScale9Sprite::create("square02_001.png");
