@@ -272,4 +272,5 @@ void ChoiceSettingNode::dispatchChanged() {
 void ChoiceSettingNode::dispatchCommitted() {
     SettingNode::dispatchCommitted();
     m_nameLabel->setColor({255, 255, 255});
+    ChoiceSettingNode::clearDropdown();
 }
