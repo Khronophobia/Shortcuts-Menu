@@ -89,9 +89,7 @@ bool ShortcutsLayer::setup() {
 }
 
 bool ShortcutsLayer::pagesSetup() {
-    auto showSpoilersValue = static_cast<ChoiceSettingValue*>(
-        Mod::get()->getSetting("show-spoilers")
-    )->getChoice();
+    auto showSpoilersValue = Mod::get()->getSettingValue<ChoiceSettingStruct>("show-spoilers").m_choice;
 
     // Utilities Page
     auto utilsMenu = CCMenu::create();

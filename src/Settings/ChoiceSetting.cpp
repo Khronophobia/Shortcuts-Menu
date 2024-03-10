@@ -48,8 +48,11 @@ bool ChoiceSettingNode::init(ChoiceSettingValue* value, float width) {
     m_currentChoice = value->getChoice();
     this->setContentSize({width, height});
 
-    auto name = m_settingKeys->json->get<std::string>("name");
-    m_nameLabel = CCLabelBMFont::create(name.c_str(), "bigFont.fnt");
+    if (m_settingKeys->json->contains("name"))
+        m_name = m_settingKeys->json->get<std::string>("name");
+    else
+        m_name = value->getKey();
+    m_nameLabel = CCLabelBMFont::create(m_name.c_str(), "bigFont.fnt");
     m_nameLabel->setAnchorPoint({0.f, 0.5f});
     m_nameLabel->limitLabelWidth(width / 2 -50.f, 0.5f, 0.1f);
     m_nameLabel->setPosition(sidePad / 2, height / 2);
@@ -199,7 +202,7 @@ bool ChoiceSettingNode::init(ChoiceSettingValue* value, float width) {
 
 void ChoiceSettingNode::onDescription(CCObject* sender) {
     FLAlertLayer::create(
-        m_settingKeys->json->get<std::string>("name").c_str(),
+        m_name.c_str(),
         m_settingKeys->json->get<std::string>("description").c_str(),
         "OK"
     )->show();
@@ -209,7 +212,7 @@ void ChoiceSettingNode::onReset(CCObject* sender) {
     createQuickPopup(
         "Reset",
         "Are you sure you want to <cr>reset</c> <cl>"
-          + m_settingKeys->json->get<std::string>("name")
+          + m_name
           + "</c> to <cy>default</c>?",
         "Cancel", "Reset",
         [this](auto, bool reset) {

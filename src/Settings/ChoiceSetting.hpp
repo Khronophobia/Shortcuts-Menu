@@ -4,6 +4,10 @@
 
 using namespace geode::prelude;
 
+struct ChoiceSettingStruct {
+    int m_choice;
+};
+
 class ChoiceSettingValue : public SettingValue {
 protected:
     int m_choice;
@@ -21,6 +25,7 @@ public:
 
 class ChoiceSettingNode : public SettingNode {
 protected:
+    std::string m_name;
     CCLabelBMFont* m_nameLabel;
     // Was worried it might be hard to click on phones
     #ifdef GEODE_IS_ANDROID
@@ -60,6 +65,13 @@ public:
 };
 
 template<>
-struct SettingValueSetter<int> {
-
+struct SettingValueSetter<ChoiceSettingStruct> {
+    static ChoiceSettingStruct get(SettingValue* setting) {
+        auto choiceSett = static_cast<ChoiceSettingValue*>(setting);
+        struct ChoiceSettingStruct defaultStruct = {choiceSett->getChoice()};
+        return defaultStruct;
+    }
+    static void set(ChoiceSettingValue* setting, ChoiceSettingStruct const& value) {
+        setting->setChoice(value.m_choice);
+    }
 };
