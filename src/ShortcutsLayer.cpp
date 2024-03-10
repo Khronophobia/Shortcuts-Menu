@@ -519,13 +519,11 @@ void ShortcutsLayer::refreshPage() {
     m_pageDesc->setString(m_pageDescList.at(m_currentPage).c_str());
     m_pageLayers->updateLayout();
 
-    for (int page = 0; page < m_maxPage; page++) {
-        auto btn = static_cast<CCMenuItemSpriteExtra*>(m_navigateButtonList->objectAtIndex(page));
-        if (btn->getTag() == m_currentPage) {
+    for (auto btn : CCArrayExt<CCMenuItemSpriteExtra*>(m_navigateButtonList)) {
+        if (btn->getTag() == m_currentPage)
             btn->setNormalImage(CCSprite::createWithSpriteFrameName("gj_navDotBtn_on_001.png"));
-        } else {
+        else
             btn->setNormalImage(CCSprite::createWithSpriteFrameName("gj_navDotBtn_off_001.png"));
-        }
     }
 }
 
