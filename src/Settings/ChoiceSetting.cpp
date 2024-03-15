@@ -1,6 +1,8 @@
 #include <Geode/Geode.hpp>
 #include "ChoiceSetting.hpp"
 
+using namespace geode::prelude;
+
 bool ChoiceSettingValue::load(matjson::Value const& json) {
     if (!json.is<int>()) return false;
     m_choice = json.as_int();
