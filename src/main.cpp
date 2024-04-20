@@ -10,6 +10,10 @@
 
 using namespace geode::prelude;
 
+$on_mod(Loaded) {
+    Mod::get()->addCustomSetting<ChoiceSettingValue>("show-spoilers", 2);
+}
+
 class $modify(MenuLayer) {
     bool init() {
         if (!MenuLayer::init()) return false;
@@ -111,7 +115,3 @@ class $modify(LevelInfoLayer) {
         return true;
     }
 };
-
-$on_mod(Loaded) {
-    Mod::get()->addCustomSetting<ChoiceSettingValue>("show-spoilers", 2);
-}

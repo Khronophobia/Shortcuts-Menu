@@ -16,13 +16,15 @@ protected:
     CCMenu* m_navigationMenu;
     CCArray* m_navigateButtonList;
     std::deque<std::string> m_pageDescList;
+    void setScene(CCScene* scene);
 public:
     static ShortcutsLayer* create();
     void onShortcut(CCObject*);
     void addPage(CCNode* node, std::string pageDesc = "");
     void onChangePage(CCObject*);
     void onNavigate(CCObject*);
-    void onScene(CCObject*);
+    void onMainMenu(CCObject*);
+    void onCreatorLayer(CCObject*);
     void onRestart(CCObject*);
     void onQuit(CCObject*);
     void onModSettings(CCObject*);

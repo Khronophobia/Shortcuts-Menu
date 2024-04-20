@@ -111,9 +111,8 @@ bool ShortcutsLayer::pagesSetup() {
     auto mainMenuBtn = CCMenuItemSpriteExtra::create(
         CrossButtonSprite::createWithSpriteFrameName("menuBtn.png"_spr),
         this,
-        menu_selector(ShortcutsLayer::onScene)
+        menu_selector(ShortcutsLayer::onMainMenu)
     );
-    mainMenuBtn->setUserObject(MenuLayer::scene(false));
     mainMenuBtn->setID("main-menu-button"_spr);
     auto garageBtn = CCMenuItemSpriteExtra::create(
         CCSprite::createWithSpriteFrameName("GJ_garageBtn_001.png"),
@@ -124,9 +123,8 @@ bool ShortcutsLayer::pagesSetup() {
     auto creatorBtn = CCMenuItemSpriteExtra::create(
         CCSprite::createWithSpriteFrameName("GJ_creatorBtn_001.png"),
         this,
-        menu_selector(ShortcutsLayer::onScene)
+        menu_selector(ShortcutsLayer::onCreatorLayer)
     );
-    creatorBtn->setUserObject(CreatorLayer::scene());
     creatorBtn->setLayoutOptions(
         AxisLayoutOptions::create()->setBreakLine(true)
     );
@@ -527,15 +525,18 @@ void ShortcutsLayer::refreshPage() {
     }
 }
 
-void ShortcutsLayer::onScene(CCObject* sender) {
-    auto obj = static_cast<CCNode*>(sender)->getUserObject();
-    if (auto scene = typeinfo_cast<CCScene*>(obj)) {
-        CCDirector::sharedDirector()->replaceScene(
-            CCTransitionFade::create(0.5f, scene)
-        );
-        return;
-    }
-    log::error("Not a valid scene");
+void ShortcutsLayer::setScene(CCScene* scene) {
+    CCDirector::sharedDirector()->replaceScene(
+        CCTransitionFade::create(0.5f, scene)
+    );
+}
+
+void ShortcutsLayer::onMainMenu(CCObject*) {
+    setScene(MenuLayer::scene(false));
+}
+
+void ShortcutsLayer::onCreatorLayer(CCObject*) {
+    setScene(CreatorLayer::scene());
 }
 
 void ShortcutsLayer::onRestart(CCObject* sender) {
