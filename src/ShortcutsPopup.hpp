@@ -14,15 +14,13 @@ protected:
     cocos2d::CCMenu* m_navigationMenu;
     cocos2d::CCArray* m_navigateButtonList;
     std::deque<std::string> m_pageDescList;
-    void setScene(cocos2d::CCScene* scene);
 public:
     static ShortcutsPopup* create();
     void onShortcut(CCObject*);
     void addPage(CCNode* node, std::string pageDesc = "");
     void onChangePage(CCObject*);
     void onNavigate(CCObject*);
-    void onMainMenu(CCObject*);
-    void onCreatorLayer(CCObject*);
+    void onScene(CCObject*);
     void onRestart(CCObject*);
     void onQuit(CCObject*);
     void onModSettings(CCObject*);

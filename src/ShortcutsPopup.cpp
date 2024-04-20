@@ -1,6 +1,7 @@
 #include <Geode/Geode.hpp>
 #include <Geode/ui/GeodeUI.hpp>
 #include "ShortcutsPopup.hpp"
+#include "CCFunction.hpp"
 #include "Settings/ChoiceSetting.hpp"
 
 using namespace geode::prelude;
@@ -110,8 +111,11 @@ bool ShortcutsPopup::pagesSetup() {
     auto mainMenuBtn = CCMenuItemSpriteExtra::create(
         CrossButtonSprite::createWithSpriteFrameName("menuBtn.png"_spr),
         this,
-        menu_selector(ShortcutsPopup::onMainMenu)
+        menu_selector(ShortcutsPopup::onScene)
     );
+    mainMenuBtn->setUserObject(CCFunction<CCScene*>::create([]() {
+        return MenuLayer::scene(false);
+    }));
     mainMenuBtn->setID("main-menu-button"_spr);
     auto garageBtn = CCMenuItemSpriteExtra::create(
         CCSprite::createWithSpriteFrameName("GJ_garageBtn_001.png"),
@@ -122,8 +126,11 @@ bool ShortcutsPopup::pagesSetup() {
     auto creatorBtn = CCMenuItemSpriteExtra::create(
         CCSprite::createWithSpriteFrameName("GJ_creatorBtn_001.png"),
         this,
-        menu_selector(ShortcutsPopup::onCreatorLayer)
+        menu_selector(ShortcutsPopup::onScene)
     );
+    creatorBtn->setUserObject(CCFunction<CCScene*>::create([]() {
+        return CreatorLayer::scene();
+    }));
     creatorBtn->setLayoutOptions(
         AxisLayoutOptions::create()->setBreakLine(true)
     );
@@ -524,18 +531,15 @@ void ShortcutsPopup::refreshPage() {
     }
 }
 
-void ShortcutsPopup::setScene(CCScene* scene) {
-    CCDirector::sharedDirector()->replaceScene(
-        CCTransitionFade::create(0.5f, scene)
-    );
-}
-
-void ShortcutsPopup::onMainMenu(CCObject*) {
-    setScene(MenuLayer::scene(false));
-}
-
-void ShortcutsPopup::onCreatorLayer(CCObject*) {
-    setScene(CreatorLayer::scene());
+void ShortcutsPopup::onScene(CCObject* sender) {
+    auto obj = static_cast<CCNode*>(sender)->getUserObject();
+    if (auto sceneFunc = typeinfo_cast<CCFunction<CCScene*>*>(obj)) {
+        CCDirector::sharedDirector()->replaceScene(
+            CCTransitionFade::create(0.5f, sceneFunc->execute())
+        );
+        return;
+    }
+    log::error("Invalid scene function");
 }
 
 void ShortcutsPopup::onRestart(CCObject* sender) {
