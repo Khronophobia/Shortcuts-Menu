@@ -15,42 +15,28 @@ public:
     bool load(matjson::Value const& json) override;
     bool save(matjson::Value& json) const override;
     geode::SettingNode* createNode(float width) override;
-    int getChoice();
+    int getChoice() const;
     int getDefaultChoice() const;
     void setChoice(int choice);
 };
 
 class ChoiceSettingNode : public geode::SettingNode {
 protected:
-    std::string m_name;
-    cocos2d::CCLabelBMFont* m_nameLabel;
-    // Was worried it might be hard to click on phones
-    #ifdef GEODE_IS_ANDROID
-    cocos2d::CCSize const m_dropdownSize = {400.f, 90.f};
-    float const m_dropdownLabelSize = 0.65f;
-    #else
-    cocos2d::CCSize const m_dropdownSize = {400.f, 60.f};
-    float const m_dropdownLabelSize = 0.5f;
-    #endif
-    int m_currentChoice;
-    matjson::Array m_choiceList;
-    CCMenuItemSpriteExtra* m_resetBtn;
     std::optional<geode::CustomSetting> m_settingKeys;
-    cocos2d::extension::CCScale9Sprite* m_dropdownBtnBg;
-    cocos2d::extension::CCScale9Sprite* m_dropdownMenuBg;
-    cocos2d::extension::CCScale9Sprite* m_thing;
-    CCMenuItemSpriteExtra* m_dropdownBtn;
-    cocos2d::CCLabelBMFont* m_dropdownLabel;
-    float m_dropdownLabelWidth;
-    float m_dropdownChoiceWidth;
-    cocos2d::CCMenu* m_dropdownMenu;
+    std::string m_name;
+    float m_height;
+    std::vector<std::string> m_choiceList;
+    int m_currentChoice;
+    cocos2d::CCLabelBMFont* m_nameLabel;
+    CCMenuItemSpriteExtra* m_resetBtn;
+    geode::Ref<cocos2d::CCArray> m_choiceButtons = cocos2d::CCArray::create();
+
     bool init(ChoiceSettingValue* value, float width);
+    float setupHeight() const;
+    void setCurrentChoice(int choice);
     void onDescription(CCObject*);
     void onReset(CCObject*);
-    void onDropdown(CCObject*);
     void onSelectChoice(CCObject*);
-    void selectChoice(int choice);
-    void clearDropdown();
 public:
     void commit() override;
     bool hasUncommittedChanges() override;
