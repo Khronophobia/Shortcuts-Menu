@@ -1,22 +1,20 @@
 #pragma once
 #include <Geode/Geode.hpp>
 
-using namespace geode::prelude;
-
-class ShortcutsLayer : public Popup<> {
+class ShortcutsLayer : public geode::Popup<> {
 protected:
     int m_currentPage;
     int m_maxPage;
     bool setup();
     bool pagesSetup();
     void refreshPage();
-    CCLabelBMFont* m_pageDesc;
-    CCLayerMultiplex* m_pageLayers;
-    CCArray* m_pageList;
-    CCMenu* m_navigationMenu;
-    CCArray* m_navigateButtonList;
+    cocos2d::CCLabelBMFont* m_pageDesc;
+    cocos2d::CCLayerMultiplex* m_pageLayers;
+    cocos2d::CCArray* m_pageList;
+    cocos2d::CCMenu* m_navigationMenu;
+    cocos2d::CCArray* m_navigateButtonList;
     std::deque<std::string> m_pageDescList;
-    void setScene(CCScene* scene);
+    void setScene(cocos2d::CCScene* scene);
 public:
     static ShortcutsLayer* create();
     void onShortcut(CCObject*);
@@ -32,7 +30,7 @@ public:
     static CCMenuItemSpriteExtra* addShortcutButton(
         CCObject* target,
         float scale = 1.f,
-        CircleBaseColor color = CircleBaseColor::Green,
-        CircleBaseSize size = CircleBaseSize::Medium
+        geode::CircleBaseColor color = geode::CircleBaseColor::Green,
+        geode::CircleBaseSize size = geode::CircleBaseSize::Medium
     );
 };
