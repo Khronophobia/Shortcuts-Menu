@@ -1,7 +1,8 @@
 # v1.2.0
 
 - Add Online page
-- Change <cy>Show Spoilers</c> to a dropdown
+- Change <cy>Show Spoilers</c> to a custom setting
+- Move shortcut button in LevelSearchLayer to menu provided by Node IDs (require Node IDs 1.9.0 or higher)
 
 # v1.1.0
 
