@@ -1,7 +1,7 @@
 #pragma once
 #include <Geode/Geode.hpp>
 
-class ShortcutsLayer : public geode::Popup<> {
+class ShortcutsPopup : public geode::Popup<> {
 protected:
     int m_currentPage;
     int m_maxPage;
@@ -16,7 +16,7 @@ protected:
     std::deque<std::string> m_pageDescList;
     void setScene(cocos2d::CCScene* scene);
 public:
-    static ShortcutsLayer* create();
+    static ShortcutsPopup* create();
     void onShortcut(CCObject*);
     void addPage(CCNode* node, std::string pageDesc = "");
     void onChangePage(CCObject*);
@@ -33,4 +33,6 @@ public:
         geode::CircleBaseColor color = geode::CircleBaseColor::Green,
         geode::CircleBaseSize size = geode::CircleBaseSize::Medium
     );
+
+    ~ShortcutsPopup();
 };

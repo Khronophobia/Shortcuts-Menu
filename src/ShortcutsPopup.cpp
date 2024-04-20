@@ -1,20 +1,19 @@
 #include <Geode/Geode.hpp>
 #include <Geode/ui/GeodeUI.hpp>
-#include "ShortcutsLayer.hpp"
+#include "ShortcutsPopup.hpp"
 #include "Settings/ChoiceSetting.hpp"
 
 using namespace geode::prelude;
 
-bool ShortcutsLayer::setup() {
+bool ShortcutsPopup::setup() {
     m_noElasticity = GameManager::sharedState()->getGameVariable("0168"); // Fast Menu option
 
     // This spritesheet isn't loaded by default. Not sure if there's a better way to handle this.
     // Also, idk if I should deload this manually or if it'll deload automatically.
-    CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("SecretSheet.plist");
+    CCSpriteFrameCache::get()->addSpriteFramesWithFile("SecretSheet.plist");
     this->setTitle("Shortcuts Menu", "bigFont.fnt");
     m_currentPage = 0;
 
-    this->setID("ShortcutsLayer");
     m_closeBtn->setID("close-button"_spr);
     m_title->setID("title"_spr);
     m_buttonMenu->setID("popup-menu"_spr);
@@ -26,13 +25,13 @@ bool ShortcutsLayer::setup() {
 
     auto prevPageSpr = CCSprite::createWithSpriteFrameName("GJ_arrow_01_001.png");
     auto prevPageBtn = CCMenuItemSpriteExtra::create(
-        prevPageSpr, this, menu_selector(ShortcutsLayer::onChangePage)
+        prevPageSpr, this, menu_selector(ShortcutsPopup::onChangePage)
     );
     prevPageBtn->setTag(-1);
     auto nextPageSpr = CCSprite::createWithSpriteFrameName("GJ_arrow_01_001.png");
     nextPageSpr->setFlipX(true);
     auto nextPageBtn = CCMenuItemSpriteExtra::create(
-        nextPageSpr, this, menu_selector(ShortcutsLayer::onChangePage)
+        nextPageSpr, this, menu_selector(ShortcutsPopup::onChangePage)
     );
     nextPageBtn->setTag(1);
 
@@ -46,7 +45,7 @@ bool ShortcutsLayer::setup() {
     auto modSettingsBtn = CCMenuItemSpriteExtra::create(
         CCSprite::createWithSpriteFrameName("GJ_optionsBtn02_001.png"),
         this,
-        menu_selector(ShortcutsLayer::onModSettings)
+        menu_selector(ShortcutsPopup::onModSettings)
     );
     modSettingsBtn->setID("mod-settings-button"_spr);
     m_buttonMenu->addChildAtPosition(modSettingsBtn, Anchor::TopRight, {-3.f, -3.f});
@@ -76,7 +75,7 @@ bool ShortcutsLayer::setup() {
         auto navBtn = CCMenuItemSpriteExtra::create(
             CCSprite::createWithSpriteFrameName("gj_navDotBtn_off_001.png"),
             this,
-            menu_selector(ShortcutsLayer::onNavigate)
+            menu_selector(ShortcutsPopup::onNavigate)
         );
         navBtn->setTag(page);
         m_navigationMenu->addChild(navBtn);
@@ -88,7 +87,7 @@ bool ShortcutsLayer::setup() {
     return true;
 }
 
-bool ShortcutsLayer::pagesSetup() {
+bool ShortcutsPopup::pagesSetup() {
     auto showSpoilersValue = Mod::get()->getSettingValue<ChoiceSettingStruct>("show-spoilers").m_choice;
 
     // Utilities Page
@@ -111,7 +110,7 @@ bool ShortcutsLayer::pagesSetup() {
     auto mainMenuBtn = CCMenuItemSpriteExtra::create(
         CrossButtonSprite::createWithSpriteFrameName("menuBtn.png"_spr),
         this,
-        menu_selector(ShortcutsLayer::onMainMenu)
+        menu_selector(ShortcutsPopup::onMainMenu)
     );
     mainMenuBtn->setID("main-menu-button"_spr);
     auto garageBtn = CCMenuItemSpriteExtra::create(
@@ -123,7 +122,7 @@ bool ShortcutsLayer::pagesSetup() {
     auto creatorBtn = CCMenuItemSpriteExtra::create(
         CCSprite::createWithSpriteFrameName("GJ_creatorBtn_001.png"),
         this,
-        menu_selector(ShortcutsLayer::onCreatorLayer)
+        menu_selector(ShortcutsPopup::onCreatorLayer)
     );
     creatorBtn->setLayoutOptions(
         AxisLayoutOptions::create()->setBreakLine(true)
@@ -133,13 +132,13 @@ bool ShortcutsLayer::pagesSetup() {
     auto exitBtn = CCMenuItemSpriteExtra::create(
         CCSprite::createWithSpriteFrameName("GJ_closeBtn_001.png"),
         this,
-        menu_selector(ShortcutsLayer::onQuit)
+        menu_selector(ShortcutsPopup::onQuit)
     );
     exitBtn->setID("close-button"_spr);
     auto restartBtn = CCMenuItemSpriteExtra::create(
         CCSprite::createWithSpriteFrameName("GJ_updateBtn_001.png"),
         this,
-        menu_selector(ShortcutsLayer::onRestart)
+        menu_selector(ShortcutsPopup::onRestart)
     );
     restartBtn->setID("restart-button"_spr);
     auto geodeBtn = CCMenuItemSpriteExtra::create(
@@ -147,7 +146,7 @@ bool ShortcutsLayer::pagesSetup() {
             "geode.loader/geode-logo-outline-gold.png"
         ),
         this,
-        menu_selector(ShortcutsLayer::onModsList)
+        menu_selector(ShortcutsPopup::onModsList)
     );
     geodeBtn->setID("geode-button"_spr);
     auto settingsBtn = CCMenuItemSpriteExtra::create(
@@ -476,8 +475,8 @@ bool ShortcutsLayer::pagesSetup() {
     return true;
 }
 
-ShortcutsLayer* ShortcutsLayer::create() {
-    auto ret = new ShortcutsLayer();
+ShortcutsPopup* ShortcutsPopup::create() {
+    auto ret = new ShortcutsPopup();
 
     if (ret && ret->initAnchored(400.f, 260.f)) {
         ret->autorelease();
@@ -488,31 +487,31 @@ ShortcutsLayer* ShortcutsLayer::create() {
     return nullptr;
 };
 
-void ShortcutsLayer::onShortcut(CCObject* sender) {
-    ShortcutsLayer::create()->show();
+void ShortcutsPopup::onShortcut(CCObject* sender) {
+    ShortcutsPopup::create()->show();
 }
 
-void ShortcutsLayer::addPage(CCNode* node, std::string pageDesc) {
+void ShortcutsPopup::addPage(CCNode* node, std::string pageDesc) {
     m_pageList->addObject(node);
     m_pageDescList.push_back(pageDesc);
 }
 
-void ShortcutsLayer::onChangePage(CCObject* sender) {
+void ShortcutsPopup::onChangePage(CCObject* sender) {
     m_currentPage += sender->getTag();
     if (m_currentPage < 0) {
         m_currentPage = m_maxPage - 1;
     } else if (m_currentPage > m_maxPage - 1) {
         m_currentPage = 0;
     }
-    ShortcutsLayer::refreshPage();
+    ShortcutsPopup::refreshPage();
 }
 
-void ShortcutsLayer::onNavigate(CCObject* sender) {
+void ShortcutsPopup::onNavigate(CCObject* sender) {
     m_currentPage = sender->getTag();
-    ShortcutsLayer::refreshPage();
+    ShortcutsPopup::refreshPage();
 }
 
-void ShortcutsLayer::refreshPage() {
+void ShortcutsPopup::refreshPage() {
     m_pageLayers->switchTo(m_currentPage);
     m_pageDesc->setString(m_pageDescList.at(m_currentPage).c_str());
     m_pageLayers->updateLayout();
@@ -525,21 +524,21 @@ void ShortcutsLayer::refreshPage() {
     }
 }
 
-void ShortcutsLayer::setScene(CCScene* scene) {
+void ShortcutsPopup::setScene(CCScene* scene) {
     CCDirector::sharedDirector()->replaceScene(
         CCTransitionFade::create(0.5f, scene)
     );
 }
 
-void ShortcutsLayer::onMainMenu(CCObject*) {
+void ShortcutsPopup::onMainMenu(CCObject*) {
     setScene(MenuLayer::scene(false));
 }
 
-void ShortcutsLayer::onCreatorLayer(CCObject*) {
+void ShortcutsPopup::onCreatorLayer(CCObject*) {
     setScene(CreatorLayer::scene());
 }
 
-void ShortcutsLayer::onRestart(CCObject* sender) {
+void ShortcutsPopup::onRestart(CCObject* sender) {
     geode::createQuickPopup(
         "Restart Game",
         "Are you sure you want to <cr>restart</c>?",
@@ -552,7 +551,7 @@ void ShortcutsLayer::onRestart(CCObject* sender) {
     );
 }
 
-void ShortcutsLayer::onQuit(CCObject* sender) {
+void ShortcutsPopup::onQuit(CCObject* sender) {
     geode::createQuickPopup(
         "Quit Game",
         "Are you sure you want to <cr>quit?</c>",
@@ -565,15 +564,15 @@ void ShortcutsLayer::onQuit(CCObject* sender) {
     );
 }
 
-void ShortcutsLayer::onModsList(CCObject* sender) {
+void ShortcutsPopup::onModsList(CCObject* sender) {
     geode::openModsList();
 }
 
-void ShortcutsLayer::onModSettings(CCObject* sender) {
+void ShortcutsPopup::onModSettings(CCObject* sender) {
     geode::openSettingsPopup(Mod::get());
 }
 
-CCMenuItemSpriteExtra* ShortcutsLayer::addShortcutButton(
+CCMenuItemSpriteExtra* ShortcutsPopup::addShortcutButton(
 	CCObject* target,
 	float scale,
 	CircleBaseColor color,
@@ -581,8 +580,12 @@ CCMenuItemSpriteExtra* ShortcutsLayer::addShortcutButton(
 	auto shortcutButton = CCMenuItemSpriteExtra::create(
 			CircleButtonSprite::createWithSpriteFrameName("shortcutIcon.png"_spr, scale, color, size),
 			target,
-			menu_selector(ShortcutsLayer::onShortcut)
+			menu_selector(ShortcutsPopup::onShortcut)
 		);
 	shortcutButton->setID("shortcut-button"_spr);
 	return shortcutButton;
+}
+
+ShortcutsPopup::~ShortcutsPopup() {
+    CCSpriteFrameCache::get()->removeSpriteFramesFromFile("SecretSheet.plist");
 }
