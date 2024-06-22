@@ -125,14 +125,87 @@ bool ShortcutsPopup::setup() {
     // ------
     auto page2Layer = CCLayer::create();
     page2Layer->ignoreAnchorPointForPosition(false);
-    page2Layer->setContentSize(m_size);
+
+    auto onlinePageMenu = CCMenu::create();
+    onlinePageMenu->ignoreAnchorPointForPosition(false);
+    onlinePageMenu->setContentSize(m_size - ccp(40.f, 50.f));
+    onlinePageMenu->setLayout(
+        AxisLayout::create()
+            ->setGrowCrossAxis(true)
+            ->setCrossAxisOverflow(false)
+    );
+    page2Layer->addChildAtPosition(onlinePageMenu, Anchor::Center, ccp(0.f, -8.f));
+
+    auto createdLvlBtn = CCMenuItemSpriteExtra::create(
+        CCSprite::createWithSpriteFrameName("GJ_createBtn_001.png"),
+        this, menu_selector(CreatorLayer::onMyLevels)
+    );
+    onlinePageMenu->addChild(createdLvlBtn);
+    auto savedLvlBtn = CCMenuItemSpriteExtra::create(
+        CCSprite::createWithSpriteFrameName("GJ_savedBtn_001.png"),
+        this, menu_selector(CreatorLayer::onSavedLevels)
+    );
+    onlinePageMenu->addChild(savedLvlBtn);
+    auto questBtn = CCMenuItemSpriteExtra::create(
+        CCSprite::createWithSpriteFrameName("GJ_challengeBtn_001.png"),
+        this, menu_selector(CreatorLayer::onChallenge)
+    );
+    onlinePageMenu->addChild(questBtn);
+    auto dailyLvlBtn = CCMenuItemSpriteExtra::create(
+        CCSprite::createWithSpriteFrameName("GJ_dailyBtn_001.png"),
+        this, menu_selector(CreatorLayer::onDailyLevel)
+    );
+    onlinePageMenu->addChild(dailyLvlBtn);
+    auto weeklyBtn = CCMenuItemSpriteExtra::create(
+        CCSprite::createWithSpriteFrameName("GJ_weeklyBtn_001.png"),
+        this,
+        menu_selector(CreatorLayer::onWeeklyLevel)
+    );
+    onlinePageMenu->addChild(weeklyBtn);
+    auto featuredLvlBtn = CCMenuItemSpriteExtra::create(
+        CCSprite::createWithSpriteFrameName("GJ_featuredBtn_001.png"),
+        this,
+        menu_selector(CreatorLayer::onFeaturedLevels)
+    );
+    onlinePageMenu->addChild(featuredLvlBtn);
+    auto searchLvlBtn = CCMenuItemSpriteExtra::create(
+        CCSprite::createWithSpriteFrameName("GJ_searchBtn_001.png"),
+        this,
+        menu_selector(CreatorLayer::onOnlineLevels)
+    );
+    searchLvlBtn->setLayoutOptions(
+        AxisLayoutOptions::create()->setBreakLine(true)  
+    );
+    onlinePageMenu->addChild(searchLvlBtn);
+
+    if (
+        isTreasureRoomUnlocked()
+        || showSpoilersChoice != ShowSpoilers::Hide
+    ) {
+        char const* treasureRoomSprName;
+        if (isTreasureRoomUnlocked()) {
+            treasureRoomSprName = "secretDoorBtn_open_001.png";
+        } else {
+            treasureRoomSprName = "secretDoorBtn_closed_001.png";
+        }
+
+        auto treasureRoomBtn = CCMenuItemSpriteExtra::create(
+            CCSprite::createWithSpriteFrameName(treasureRoomSprName),
+            this, menu_selector(ShortcutsPopup::onShortcutTreasureRoom)
+        );
+        treasureRoomBtn->setLayoutOptions(
+            AxisLayoutOptions::create()->setScaleLimits(1.f, 1.f)
+        );
+        onlinePageMenu->addChild(treasureRoomBtn);
+    }
+
+    onlinePageMenu->updateLayout();
 
     // ------
     // PAGE 3
     // ------
     auto page3Layer = CCLayer::create();
     page3Layer->ignoreAnchorPointForPosition(false);
-    page3Layer->setContentSize(m_size);
 
     auto vaultMenu = CCMenu::create();
     vaultMenu->ignoreAnchorPointForPosition(false);
@@ -216,7 +289,6 @@ bool ShortcutsPopup::setup() {
     // ------
     auto page4Layer = CCLayer::create();
     page4Layer->ignoreAnchorPointForPosition(false);
-    page4Layer->setContentSize(m_size);
 
     auto shopMenu = CCMenu::create();
     shopMenu->ignoreAnchorPointForPosition(false);
@@ -435,8 +507,7 @@ void ShortcutsPopup::onShortcutRestart(CCObject*) {
 
 void ShortcutsPopup::onShortcutSettings(CCObject*) {
     auto optionsLayer = OptionsLayer::create();
-    this->addChild(optionsLayer);
-    optionsLayer->showLayer(false);
+    optionsLayer->enterLayer();
 }
 
 void ShortcutsPopup::onShortcutGeode(CCObject*) {
@@ -454,4 +525,14 @@ void ShortcutsPopup::onShortcutShop(CCObject* sender) {
     auto scene = GJShopLayer::scene(shopType);
 
     CCDirector::get()->pushScene(CCTransitionFade::create(0.5f, scene));
+}
+
+void ShortcutsPopup::onShortcutTreasureRoom(CCObject*) {
+    if (!isTreasureRoomUnlocked()) {
+        FLAlertLayer::create("No", "Unlock it first.", "Ok")->show();
+        return;
+    }
+
+    auto scene = SecretRewardsLayer::scene(false);
+    CCDirector::get()->replaceScene(CCTransitionFade::create(0.5f, scene));
 }

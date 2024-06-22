@@ -20,6 +20,7 @@ protected:
     void onShortcutSettings(cocos2d::CCObject*);
     void onShortcutGeode(cocos2d::CCObject*);
     void onShortcutShop(cocos2d::CCObject*);
+    void onShortcutTreasureRoom(cocos2d::CCObject*);
 protected:
     int m_currentPage{0};
     int const m_pageAmount{4};
