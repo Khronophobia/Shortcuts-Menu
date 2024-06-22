@@ -1,7 +1,6 @@
 #include <Geode/Geode.hpp>
 #include <Geode/ui/GeodeUI.hpp>
 #include "ShortcutsPopup.hpp"
-#include "Settings/ChoiceSetting.hpp"
 #include "GameManager.hpp"
 
 using namespace geode::prelude;
