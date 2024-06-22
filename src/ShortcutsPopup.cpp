@@ -202,6 +202,14 @@ bool ShortcutsPopup::setup() {
     }
 
     vaultMenu->updateLayout();
+    if (vaultMenu->getChildrenCount() == 0) {
+        auto encouragementText = CCLabelBMFont::create(
+            "Nothing here yet...\nPlay the game to unlock more.", "goldFont.fnt",
+            350.f, CCTextAlignment::kCCTextAlignmentCenter
+        );
+        encouragementText->setScale(0.75f);
+        page3Layer->addChildAtPosition(encouragementText, Anchor::Center);
+    }
 
     // ------
     // PAGE 4
