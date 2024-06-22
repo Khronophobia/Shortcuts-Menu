@@ -1,3 +1,8 @@
+# v1.2.1
+
+- Port to 2.206
+- Now remember the last page you left on
+
 # v1.2.0
 
 - Add Online page
