@@ -507,7 +507,10 @@ void ShortcutsPopup::onShortcutRestart(CCObject*) {
 
 void ShortcutsPopup::onShortcutSettings(CCObject*) {
     auto optionsLayer = OptionsLayer::create();
-    optionsLayer->enterLayer();
+    // It likes to show up behind so I'll just close the shortcuts popup
+    onClose(nullptr);
+    optionsLayer->setZOrder(100);
+    optionsLayer->showLayer(false);
 }
 
 void ShortcutsPopup::onShortcutGeode(CCObject*) {
