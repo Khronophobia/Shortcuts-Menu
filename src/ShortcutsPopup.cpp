@@ -533,6 +533,7 @@ void ShortcutsPopup::onShortcutTreasureRoom(CCObject*) {
         return;
     }
 
+    static_cast<CustomGameManager*>(GameManager::get())->m_fields->m_shortcutEntry = true;
     auto scene = SecretRewardsLayer::scene(false);
-    CCDirector::get()->replaceScene(CCTransitionFade::create(0.5f, scene));
+    CCDirector::get()->pushScene(CCTransitionFade::create(0.5f, scene));
 }
