@@ -9,6 +9,8 @@ protected:
     void onArrowNavigate(cocos2d::CCObject*);
     void onButtonNavigate(cocos2d::CCObject*);
     void onModSettings(cocos2d::CCObject*);
+    bool isShopUnlocked(ShopType type);
+    bool isTreasureRoomUnlocked();
 
     void onShortcutGarage(cocos2d::CCObject*);
     void onShortcutMainMenu(cocos2d::CCObject*);

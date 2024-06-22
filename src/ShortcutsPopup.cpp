@@ -134,11 +134,11 @@ bool ShortcutsPopup::setup() {
     page3Layer->ignoreAnchorPointForPosition(false);
     page3Layer->setContentSize(m_size);
 
-    auto page3Menu = CCMenu::create();
-    page3Menu->ignoreAnchorPointForPosition(false);
-    page3Menu->setContentSize(m_size - ccp(40.f, 50.f));
-    page3Menu->setLayout(AxisLayout::create()->setGap(20.f));
-    page3Layer->addChildAtPosition(page3Menu, Anchor::Center, ccp(0.f, -8.f));
+    auto vaultMenu = CCMenu::create();
+    vaultMenu->ignoreAnchorPointForPosition(false);
+    vaultMenu->setContentSize(m_size - ccp(40.f, 50.f));
+    vaultMenu->setLayout(AxisLayout::create()->setGap(20.f));
+    page3Layer->addChildAtPosition(vaultMenu, Anchor::Center, ccp(0.f, -8.f));
 
     // Vault
     if (
@@ -149,7 +149,7 @@ bool ShortcutsPopup::setup() {
     ) {
         if (showSpoilersChoice == ShowSpoilers::Silhouette) {
             auto vault = CCSprite::createWithSpriteFrameName("vaultLocked.png"_spr);
-            page3Menu->addChild(vault);
+            vaultMenu->addChild(vault);
         }
     } else {
         auto vault1 = CCMenuItemSpriteExtra::create(
@@ -157,7 +157,7 @@ bool ShortcutsPopup::setup() {
             this, menu_selector(OptionsLayer::onSecretVault)
         );
         // TODO: Create a custom callback for this
-        page3Menu->addChild(vault1);
+        vaultMenu->addChild(vault1);
     }
     // Vault of Secrets
     if (
@@ -168,7 +168,7 @@ bool ShortcutsPopup::setup() {
     ) {
         if (showSpoilersChoice == ShowSpoilers::Silhouette) {
             auto vault = CCSprite::createWithSpriteFrameName("vaultLocked.png"_spr);
-            page3Menu->addChild(vault);
+            vaultMenu->addChild(vault);
         }
     } else {
         auto vault2 = CCMenuItemSpriteExtra::create(
@@ -181,7 +181,7 @@ bool ShortcutsPopup::setup() {
         lockSpr->setPosition(vault2->getNormalImage()->getPosition());
         vault2->getNormalImage()->addChild(lockSpr);
 
-        page3Menu->addChild(vault2);
+        vaultMenu->addChild(vault2);
     }
     // Chamber of Time
     if (
@@ -190,7 +190,7 @@ bool ShortcutsPopup::setup() {
     ) {
         if (showSpoilersChoice == ShowSpoilers::Silhouette) {
             auto vault = CCSprite::createWithSpriteFrameName("vaultLocked.png"_spr);
-            page3Menu->addChild(vault);
+            vaultMenu->addChild(vault);
         }
     } else {
         auto vault3 = CCMenuItemSpriteExtra::create(
@@ -198,10 +198,10 @@ bool ShortcutsPopup::setup() {
             this, menu_selector(LevelPage::onSecretDoor)
         );
         // TODO: Create a custom callback for this
-        page3Menu->addChild(vault3);
+        vaultMenu->addChild(vault3);
     }
 
-    page3Menu->updateLayout();
+    vaultMenu->updateLayout();
 
     // ------
     // PAGE 4
@@ -210,15 +210,15 @@ bool ShortcutsPopup::setup() {
     page4Layer->ignoreAnchorPointForPosition(false);
     page4Layer->setContentSize(m_size);
 
-    auto page4Menu = CCMenu::create();
-    page4Menu->ignoreAnchorPointForPosition(false);
-    page4Menu->setContentSize(m_size - ccp(40.f, 50.f));
-    page4Menu->setLayout(
+    auto shopMenu = CCMenu::create();
+    shopMenu->ignoreAnchorPointForPosition(false);
+    shopMenu->setContentSize(m_size - ccp(40.f, 50.f));
+    shopMenu->setLayout(
         AxisLayout::create()
             ->setGap(15.f)
             ->setGrowCrossAxis(true)
     );
-    page4Layer->addChildAtPosition(page4Menu, Anchor::Center, ccp(0.f, -8.f));
+    page4Layer->addChildAtPosition(shopMenu, Anchor::Center, ccp(0.f, -8.f));
 
     auto shopSpr = CCSprite::createWithSpriteFrameName("shopButton.png"_spr);
     shopSpr->setScale(1.25f);
@@ -228,16 +228,16 @@ bool ShortcutsPopup::setup() {
     );
     shopBtn->setTag(static_cast<int>(ShopType::Normal));
     shopBtn->setLayoutOptions(AxisLayoutOptions::create()->setBreakLine(true));
-    page4Menu->addChild(shopBtn);
+    shopMenu->addChild(shopBtn);
 
     // Scratch
     if (
-        !GameManager::get()->getUGV("11")
+        !isShopUnlocked(ShopType::Secret)
         && showSpoilersChoice != ShowSpoilers::Show
     ) {
         if (showSpoilersChoice == ShowSpoilers::Silhouette) {
             auto lockedShop = CCSprite::createWithSpriteFrameName("secretShopButtonLocked.png"_spr);
-            page4Menu->addChild(lockedShop);
+            shopMenu->addChild(lockedShop);
         }
     } else {
         auto shop = CCMenuItemSpriteExtra::create(
@@ -245,16 +245,16 @@ bool ShortcutsPopup::setup() {
             this, menu_selector(ShortcutsPopup::onShortcutShop)
         );
         shop->setTag(static_cast<int>(ShopType::Secret));
-        page4Menu->addChild(shop);
+        shopMenu->addChild(shop);
     }
     // Community Shop
     if (
-        !GameManager::get()->getUGV("20")
+        !isShopUnlocked(ShopType::Community)
         && showSpoilersChoice != ShowSpoilers::Show
     ) {
         if (showSpoilersChoice == ShowSpoilers::Silhouette) {
             auto lockedShop = CCSprite::createWithSpriteFrameName("secretShopButtonLocked.png"_spr);
-            page4Menu->addChild(lockedShop);
+            shopMenu->addChild(lockedShop);
         }
     } else {
         auto shop = CCMenuItemSpriteExtra::create(
@@ -262,16 +262,16 @@ bool ShortcutsPopup::setup() {
             this, menu_selector(ShortcutsPopup::onShortcutShop)
         );
         shop->setTag(static_cast<int>(ShopType::Community));
-        page4Menu->addChild(shop);
+        shopMenu->addChild(shop);
     }
     // Mechanic
     if (
-        !GameManager::get()->getUGV("35")
+        !isShopUnlocked(ShopType::Mechanic)
         && showSpoilersChoice != ShowSpoilers::Show
     ) {
         if (showSpoilersChoice == ShowSpoilers::Silhouette) {
             auto lockedShop = CCSprite::createWithSpriteFrameName("secretShopButtonLocked.png"_spr);
-            page4Menu->addChild(lockedShop);
+            shopMenu->addChild(lockedShop);
         }
     } else {
         auto shop = CCMenuItemSpriteExtra::create(
@@ -279,16 +279,16 @@ bool ShortcutsPopup::setup() {
             this, menu_selector(ShortcutsPopup::onShortcutShop)
         );
         shop->setTag(static_cast<int>(ShopType::Mechanic));
-        page4Menu->addChild(shop);
+        shopMenu->addChild(shop);
     }
     // Diamond
     if (
-        !GameManager::get()->getUGV("34")
+        !isShopUnlocked(ShopType::Diamond)
         && showSpoilersChoice != ShowSpoilers::Show
     ) {
         if (showSpoilersChoice == ShowSpoilers::Silhouette) {
             auto lockedShop = CCSprite::createWithSpriteFrameName("secretShopButtonLocked.png"_spr);
-            page4Menu->addChild(lockedShop);
+            shopMenu->addChild(lockedShop);
         }
     } else {
         auto shop = CCMenuItemSpriteExtra::create(
@@ -296,10 +296,10 @@ bool ShortcutsPopup::setup() {
             this, menu_selector(ShortcutsPopup::onShortcutShop)
         );
         shop->setTag(static_cast<int>(ShopType::Diamond));
-        page4Menu->addChild(shop);
+        shopMenu->addChild(shop);
     }
 
-    page4Menu->updateLayout();
+    shopMenu->updateLayout();
 
     m_pageArray.push_back(page1Layer);
     m_pageArray.push_back(page2Layer);
@@ -330,6 +330,20 @@ bool ShortcutsPopup::setup() {
 
     refreshPage();
     return true;
+}
+
+bool ShortcutsPopup::isShopUnlocked(ShopType type) {
+    switch (type) {
+        case ShopType::Normal: return true;
+        case ShopType::Secret: return GameManager::get()->getUGV("11");
+        case ShopType::Community: return GameManager::get()->getUGV("20");
+        case ShopType::Mechanic: return GameManager::get()->getUGV("35");
+        case ShopType::Diamond: return GameManager::get()->getUGV("34");
+    }
+}
+
+bool ShortcutsPopup::isTreasureRoomUnlocked() {
+    return GameManager::get()->getUGV("5");
 }
 
 void ShortcutsPopup::onArrowNavigate(CCObject* sender) {
@@ -376,12 +390,15 @@ void ShortcutsPopup::onShortcutGarage(CCObject*) {
     );
     GameManager::get()->m_ropeGarageEnter = true;
 }
+
 void ShortcutsPopup::onShortcutMainMenu(CCObject*) {
     CCDirector::get()->replaceScene(CCTransitionFade::create(0.5f, MenuLayer::scene(false)));
 }
+
 void ShortcutsPopup::onShortcutCreator(CCObject*) {
     CCDirector::get()->replaceScene(CCTransitionFade::create(0.5f, CreatorLayer::scene()));
 }
+
 void ShortcutsPopup::onShortcutExit(CCObject*) {
     createQuickPopup(
         "Quit Game",
@@ -394,6 +411,7 @@ void ShortcutsPopup::onShortcutExit(CCObject*) {
         }
     );
 }
+
 void ShortcutsPopup::onShortcutRestart(CCObject*) {
     createQuickPopup(
         "Restart Game",
@@ -406,17 +424,26 @@ void ShortcutsPopup::onShortcutRestart(CCObject*) {
         }
     );
 }
+
 void ShortcutsPopup::onShortcutSettings(CCObject*) {
     auto optionsLayer = OptionsLayer::create();
     this->addChild(optionsLayer);
     optionsLayer->showLayer(false);
 }
+
 void ShortcutsPopup::onShortcutGeode(CCObject*) {
     openModsList();
 }
+
 void ShortcutsPopup::onShortcutShop(CCObject* sender) {
+    auto shopType = static_cast<ShopType>(sender->getTag());
+    if (!isShopUnlocked(shopType)) {
+        FLAlertLayer::create("No", "Unlock it first.", "Ok")->show();
+        return;
+    }
+
     static_cast<CustomGameManager*>(GameManager::get())->m_fields->m_shortcutEntry = true;
-    auto scene = GJShopLayer::scene(static_cast<ShopType>(sender->getTag()));
+    auto scene = GJShopLayer::scene(shopType);
 
     CCDirector::get()->pushScene(CCTransitionFade::create(0.5f, scene));
 }
