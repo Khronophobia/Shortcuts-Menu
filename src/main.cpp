@@ -6,7 +6,6 @@
 #include <Geode/modify/LevelSearchLayer.hpp>
 #include <Geode/modify/LevelInfoLayer.hpp>
 #include "ShortcutsPopup.hpp"
-#include "Settings/ChoiceSetting.hpp"
 
 using namespace geode::prelude;
 
