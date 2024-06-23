@@ -506,10 +506,11 @@ void ShortcutsPopup::onShortcutRestart(CCObject*) {
 
 void ShortcutsPopup::onShortcutSettings(CCObject*) {
     auto optionsLayer = OptionsLayer::create();
+    optionsLayer->setZOrder(100);
+    CCDirector::get()->getRunningScene()->addChild(optionsLayer);
+    optionsLayer->enterLayer();
     // It likes to show up behind so I'll just close the shortcuts popup
     onClose(nullptr);
-    optionsLayer->setZOrder(100);
-    optionsLayer->showLayer(false);
 }
 
 void ShortcutsPopup::onShortcutGeode(CCObject*) {
@@ -518,10 +519,12 @@ void ShortcutsPopup::onShortcutGeode(CCObject*) {
 
 void ShortcutsPopup::onShortcutShop(CCObject* sender) {
     auto shopType = static_cast<ShopType>(sender->getTag());
+#ifndef SHORTCUTSMENU_DEBUG
     if (!isShopUnlocked(shopType)) {
         FLAlertLayer::create("No", "Unlock it first.", "Ok")->show();
         return;
     }
+#endif
 
     static_cast<CustomGameManager*>(GameManager::get())->m_fields->m_shortcutEntry = true;
     auto scene = GJShopLayer::scene(shopType);
@@ -530,10 +533,12 @@ void ShortcutsPopup::onShortcutShop(CCObject* sender) {
 }
 
 void ShortcutsPopup::onShortcutTreasureRoom(CCObject*) {
+#ifndef SHORTCUTSMENU_DEBUG
     if (!isTreasureRoomUnlocked()) {
         FLAlertLayer::create("No", "Unlock it first.", "Ok")->show();
         return;
     }
+#endif
 
     static_cast<CustomGameManager*>(GameManager::get())->m_fields->m_shortcutEntry = true;
     auto scene = SecretRewardsLayer::scene(false);
