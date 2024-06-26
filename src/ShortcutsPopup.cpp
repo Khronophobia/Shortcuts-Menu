@@ -117,6 +117,12 @@ bool ShortcutsPopup::setup() {
     );
     page1Menu->addChild(geodeBtn);
 
+    auto dailyChestBtn = CCMenuItemSpriteExtra::create(
+        CCSprite::createWithSpriteFrameName("GJ_dailyRewardBtn_001.png"),
+        this, menu_selector(MenuLayer::onDaily)
+    );
+    page1Menu->addChild(dailyChestBtn);
+
     page1Menu->updateLayout();
 
     // ------
