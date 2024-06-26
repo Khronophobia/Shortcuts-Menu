@@ -10,6 +10,7 @@ option(SHORTCUTSMENU_DEBUG "Debug. Disable unlock checks and maybe other stuff" 
 add_library(${PROJECT_NAME} SHARED
     src/main.cpp
     src/ShortcutsPopup.cpp
+    src/Hooks.cpp
     src/LayerHooks.cpp
 )
 
