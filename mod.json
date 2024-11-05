@@ -1,5 +1,5 @@
 {
-	"geode": "3.1.1",
+	"geode": "3.9.0",
 	"gd": {
 		"win": "2.206",
 		"android": "2.206"	
@@ -9,7 +9,9 @@
 	"name": "Shortcuts Menu",
 	"developer": "Khronophobia",
 	"description": "Adds a shortcut button that takes you to various parts of the game.",
-	"repository": "https://github.com/Khronophobia/Shortcuts-Menu",
+	"links": {
+		"source": "https://github.com/Khronophobia/Shortcuts-Menu"
+	},
 	"resources": {
 		"spritesheets": {
 			"ShortcutsMenu": [
