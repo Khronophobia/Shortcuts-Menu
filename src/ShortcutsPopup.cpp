@@ -16,9 +16,9 @@ ShortcutsPopup* ShortcutsPopup::create() {
 }
 
 namespace ShowSpoilers {
-    constexpr char const* Hide = "Hide";
-    constexpr char const* Silhouette = "As Silhouette";
-    constexpr char const* Show = "Show";
+    constexpr std::string_view Hide = "Hide";
+    constexpr std::string_view Silhouette = "As Silhouette";
+    constexpr std::string_view Show = "Show";
 };
 
 bool ShortcutsPopup::setup() {
