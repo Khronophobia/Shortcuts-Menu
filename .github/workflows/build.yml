@@ -34,8 +34,6 @@ jobs:
         with:
           combine: true
           target: ${{ matrix.config.target }}
-          bindings: 'Khronophobia/geode-bindings'
-          bindings-ref: 'khronos-2.0'
 
   package:
     name: Package builds
