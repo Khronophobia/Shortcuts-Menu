@@ -1,3 +1,9 @@
+# v1.2.2
+
+- Port to 2.2074
+- MacOS support?
+- Probably something else I forgot
+
 # v1.2.1
 
 - Port to 2.206

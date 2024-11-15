@@ -516,7 +516,7 @@ void ShortcutsPopup::onShortcutSettings(CCObject*) {
     CCDirector::get()->getRunningScene()->addChild(optionsLayer);
     optionsLayer->enterLayer();
     // It likes to show up behind so I'll just close the shortcuts popup
-    onClose(nullptr);
+    this->onClose(nullptr);
 }
 
 void ShortcutsPopup::onShortcutGeode(CCObject*) {

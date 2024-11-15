@@ -8,7 +8,6 @@ project(ShortcutsMenu VERSION 1.0.0)
 option(SHORTCUTSMENU_DEBUG "Debug. Disable unlock checks and maybe other stuff" OFF)
 
 add_library(${PROJECT_NAME} SHARED
-    src/main.cpp
     src/ShortcutsPopup.cpp
     src/Hooks.cpp
     src/LayerHooks.cpp
