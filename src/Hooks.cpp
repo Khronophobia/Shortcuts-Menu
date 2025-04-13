@@ -9,20 +9,23 @@
 
 using namespace geode::prelude;
 
-class $modify(MenuLayer) {
+CCMenuItemSpriteExtra* createShorcutsButton(CCObject* target, SEL_MenuHandler selector, CircleBaseSize size) {
+    auto button = CCMenuItemSpriteExtra::create(
+        CircleButtonSprite::createWithSpriteFrameName(
+            "shortcutIcon.png"_spr, 1.f,
+            CircleBaseColor::Green, size
+        ), target, selector
+    );
+    button->setID("shortcuts-menu-button"_spr);
+    return button;
+}
+
+class $modify(SMMenuLayer, MenuLayer) {
     bool init() {
         if (!MenuLayer::init()) return false;
 
         if (Mod::get()->getSettingValue<bool>("enable-menulayer")) {
-            auto shortcutButton = CCMenuItemExt::createSpriteExtra(
-                CircleButtonSprite::createWithSpriteFrameName(
-                    "shortcutIcon.png"_spr, 1.f,
-                    CircleBaseColor::Green, CircleBaseSize::MediumAlt
-                ),
-                [](auto) {
-                    ShortcutsPopup::create()->show();
-                }
-            );
+            auto shortcutButton = createShorcutsButton(this, menu_selector(SMMenuLayer::onShortcutsMenu), CircleBaseSize::MediumAlt);
             auto menu = this->getChildByID("bottom-menu");
             menu->addChild(shortcutButton);
             menu->updateLayout();
@@ -30,22 +33,18 @@ class $modify(MenuLayer) {
 
         return true;
     }
+
+    void onShortcutsMenu(CCObject*) {
+        ShortcutsPopup::create()->show();
+    }
 };
 
-class $modify(EditLevelLayer) {
+class $modify(SMEditLevelLayer, EditLevelLayer) {
     bool init(GJGameLevel* level) {
         if (!EditLevelLayer::init(level)) return false;
 
         if (Mod::get()->getSettingValue<bool>("enable-editlevellayer")) {
-            auto shortcutButton = CCMenuItemExt::createSpriteExtra(
-                CircleButtonSprite::createWithSpriteFrameName(
-                    "shortcutIcon.png"_spr, 1.f,
-                    CircleBaseColor::Green, CircleBaseSize::Medium
-                ),
-                [](auto) {
-                    ShortcutsPopup::create()->show();
-                }
-            );
+            auto shortcutButton = createShorcutsButton(this, menu_selector(SMEditLevelLayer::onShortcutsMenu), CircleBaseSize::Medium);
             auto menu = this->getChildByID("level-actions-menu");
             menu->addChild(shortcutButton);
             menu->updateLayout();
@@ -53,22 +52,18 @@ class $modify(EditLevelLayer) {
 
         return true;
     }
+
+    void onShortcutsMenu(CCObject*) {
+        ShortcutsPopup::create()->show();
+    }
 };
 
-class $modify(CreatorLayer) {
+class $modify(SMCreatorLayer, CreatorLayer) {
     bool init() {
         if (!CreatorLayer::init()) return false;
 
         if (Mod::get()->getSettingValue<bool>("enable-creatorlayer")) {
-            auto shortcutButton = CCMenuItemExt::createSpriteExtra(
-                CircleButtonSprite::createWithSpriteFrameName(
-                    "shortcutIcon.png"_spr, 1.f,
-                    CircleBaseColor::Green, CircleBaseSize::Small
-                ),
-                [](auto) {
-                    ShortcutsPopup::create()->show();
-                }
-            );
+            auto shortcutButton = createShorcutsButton(this, menu_selector(SMCreatorLayer::onShortcutsMenu), CircleBaseSize::Small);
             auto menu = this->getChildByID("bottom-right-menu");
             menu->addChild(shortcutButton);
             menu->updateLayout();
@@ -76,22 +71,18 @@ class $modify(CreatorLayer) {
 
         return true;
     }
+
+    void onShortcutsMenu(CCObject*) {
+        ShortcutsPopup::create()->show();
+    }
 };
 
-class $modify(LevelBrowserLayer) {
+class $modify(SMLevelBrowserLayer, LevelBrowserLayer) {
     bool init(GJSearchObject* p0) {
         if (!LevelBrowserLayer::init(p0)) return false;
 
         if (Mod::get()->getSettingValue<bool>("enable-levelbrowserlayer")) {
-            auto shortcutButton = CCMenuItemExt::createSpriteExtra(
-                CircleButtonSprite::createWithSpriteFrameName(
-                    "shortcutIcon.png"_spr, 1.f,
-                    CircleBaseColor::Green, CircleBaseSize::Small
-                ),
-                [](auto) {
-                    ShortcutsPopup::create()->show();
-                }
-            );
+            auto shortcutButton = createShorcutsButton(this, menu_selector(SMLevelBrowserLayer::onShortcutsMenu), CircleBaseSize::Small);
             auto menu = this->getChildByID("back-menu");
             auto backButton = menu->getChildByID("back-button");
             menu->insertAfter(shortcutButton, backButton);
@@ -100,22 +91,18 @@ class $modify(LevelBrowserLayer) {
 
         return true;
     }
+
+    void onShortcutsMenu(CCObject*) {
+        ShortcutsPopup::create()->show();
+    }
 };
 
-class $modify(LevelSearchLayer) {
+class $modify(SMLevelSearchLayer, LevelSearchLayer) {
     bool init(int p0) {
         if (!LevelSearchLayer::init(p0)) return false;
 
         if (Mod::get()->getSettingValue<bool>("enable-levelsearchlayer")) {
-            auto shortcutButton = CCMenuItemExt::createSpriteExtra(
-                CircleButtonSprite::createWithSpriteFrameName(
-                    "shortcutIcon.png"_spr, 1.f,
-                    CircleBaseColor::Green, CircleBaseSize::Small
-                ),
-                [](auto) {
-                    ShortcutsPopup::create()->show();
-                }
-            );
+            auto shortcutButton = createShorcutsButton(this, menu_selector(SMLevelSearchLayer::onShortcutsMenu), CircleBaseSize::Small);
             auto menu = this->getChildByID("bottom-left-menu");
             menu->addChild(shortcutButton);
             menu->updateLayout();
@@ -123,22 +110,18 @@ class $modify(LevelSearchLayer) {
 
         return true;
     }
+
+    void onShortcutsMenu(CCObject*) {
+        ShortcutsPopup::create()->show();
+    }
 };
 
-class $modify(LevelInfoLayer) {
+class $modify(SMLevelInfoLayer, LevelInfoLayer) {
     bool init(GJGameLevel* level, bool p1) {
         if (!LevelInfoLayer::init(level, p1)) return false;
 
         if (Mod::get()->getSettingValue<bool>("enable-levelinfolayer")) {
-            auto shortcutButton = CCMenuItemExt::createSpriteExtra(
-                CircleButtonSprite::createWithSpriteFrameName(
-                    "shortcutIcon.png"_spr, 1.f,
-                    CircleBaseColor::Green, CircleBaseSize::Small
-                ),
-                [](auto) {
-                    ShortcutsPopup::create()->show();
-                }
-            );
+            auto shortcutButton = createShorcutsButton(this, menu_selector(SMLevelInfoLayer::onShortcutsMenu), CircleBaseSize::Small);
             auto menu = this->getChildByID("back-menu");
             auto backButton = menu->getChildByID("back-button");
             menu->insertAfter(shortcutButton, backButton);
@@ -146,5 +129,9 @@ class $modify(LevelInfoLayer) {
         }
 
         return true;
+    }
+
+    void onShortcutsMenu(CCObject*) {
+        ShortcutsPopup::create()->show();
     }
 };
