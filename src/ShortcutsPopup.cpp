@@ -111,11 +111,6 @@ bool ShortcutsPopup::setup() {
         this, menu_selector(ShortcutsPopup::onShortcutSettings)
     );
     page1Menu->addChild(settingsBtn);
-    auto geodeBtn = CCMenuItemSpriteExtra::create(
-        CircleButtonSprite::createWithSpriteFrameName("geode.loader/geode-logo-outline-gold.png"),
-        this, menu_selector(ShortcutsPopup::onShortcutGeode)
-    );
-    page1Menu->addChild(geodeBtn);
 
     auto dailyChestBtn = CCMenuItemSpriteExtra::create(
         CCSprite::createWithSpriteFrameName("GJ_dailyRewardBtn_001.png"),
